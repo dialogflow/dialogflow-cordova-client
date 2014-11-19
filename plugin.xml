@@ -26,78 +26,82 @@
         
         <!-- public header and source file -->
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Classes/ApiAI.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;"/>
-        <source-file src="api-ai-ios-sdk/ApiAI/Classes/ApiAI.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/ApiAI.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;"/>
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/ApiAI.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
         
-        <header-file src="api-ai-ios-sdk/ApiAI/Classes/AIRequest.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Classes/AIRequest.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/AIRequest.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/AIRequest.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Classes/AITextRequest.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Classes/AITextRequest.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/AITextRequest.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/AITextRequest.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Classes/AIVoiceRequest.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Classes/AIVoiceRequest.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/AIVoiceRequest.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/AIVoiceRequest.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Classes/AIConfiguration.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/AIConfiguration.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/AIDefaultConfiguration.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Classes/AIDefaultConfiguration.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
         <!-- private header and source file -->
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/AIDataService_Private.h" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/ApiAI_ApiAI_Private.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/AIDataService_Private.h" />
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/ApiAI_ApiAI_Private.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/AIAlgorithmDetector.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/AIAlgorithmDetector.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/AIAlgorithmDetectorDelegate.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/AIAlgorithmDetectorTypes.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/AIAlgorithmDetector.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/AIAlgorithmDetector.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/AIAlgorithmDetectorDelegate.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/AIAlgorithmDetectorTypes.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/Algorithms/EnergyAndZeroCross/EnergyAndZeroCross.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/Algorithms/EnergyAndZeroCross/EnergyAndZeroCross.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/Algorithms/EnergyAndZeroCross/EnergyAndZeroCross.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Private/AlgorithmDetector/Algorithms/EnergyAndZeroCross/EnergyAndZeroCross.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/Network/AIDataService.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/Network/AIDataService.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/Network/AIDataService.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Private/Network/AIDataService.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/RecordDetector/AIRecordDetectorDelegate.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/RecordDetector/AIRecordDetector.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/RecordDetector/AIRecordDetector.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/RecordDetector/AIRecordDetectorDelegate.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/RecordDetector/AIRecordDetector.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Private/RecordDetector/AIRecordDetector.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AIAudioUtils.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AIAudioUtils.c" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AIMeterTable.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AIMeterTable.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorder.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorder.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;"  />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorderDelegate.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorderConstants.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorderConstants.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AIAudioUtils.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AIAudioUtils.c" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AIMeterTable.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AIMeterTable.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorder.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorder.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;"  />
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorderDelegate.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorderConstants.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Private/SoundRecorder/AISoundRecorderConstants.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/Streamer/OPStreamBuffer.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="api-ai-ios-sdk/ApiAI/Private/Streamer/OPStreamBuffer.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="api-ai-ios-sdk/ApiAI/Private/Streamer/OPStreamBufferDelegate.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/Streamer/OPStreamBuffer.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <source-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/Streamer/OPStreamBuffer.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/Private/Streamer/OPStreamBufferDelegate.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
         <!-- support header and source file -->
 
         <header-file src="src/ios/ApiAIPlugin.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
         <source-file src="src/ios/ApiAIPlugin.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
-        <header-file src="AFNetworking/AFNetworking/AFHTTPRequestOperation.h" />
-        <source-file src="AFNetworking/AFNetworking/AFHTTPRequestOperation.m" />
-        <header-file src="AFNetworking/AFNetworking/AFHTTPRequestOperationManager.h" />
-        <source-file src="AFNetworking/AFNetworking/AFHTTPRequestOperationManager.m" />
-        <header-file src="AFNetworking/AFNetworking/AFHTTPSessionManager.h" />
-        <source-file src="AFNetworking/AFNetworking/AFHTTPSessionManager.m" />
-        <header-file src="AFNetworking/AFNetworking/AFNetworking.h" />
-        <header-file src="AFNetworking/AFNetworking/AFNetworkReachabilityManager.h" />
-        <source-file src="AFNetworking/AFNetworking/AFNetworkReachabilityManager.m" />
-        <header-file src="AFNetworking/AFNetworking/AFSecurityPolicy.h" />
-        <source-file src="AFNetworking/AFNetworking/AFSecurityPolicy.m" />
-        <header-file src="AFNetworking/AFNetworking/AFURLConnectionOperation.h" />
-        <source-file src="AFNetworking/AFNetworking/AFURLConnectionOperation.m" />
-        <header-file src="AFNetworking/AFNetworking/AFURLRequestSerialization.h" />
-        <source-file src="AFNetworking/AFNetworking/AFURLRequestSerialization.m" />
-        <header-file src="AFNetworking/AFNetworking/AFURLResponseSerialization.h" />
-        <source-file src="AFNetworking/AFNetworking/AFURLResponseSerialization.m" />
-        <header-file src="AFNetworking/AFNetworking/AFURLSessionManager.h" />
-        <source-file src="AFNetworking/AFNetworking/AFURLSessionManager.m" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFHTTPRequestOperation.h" />
+        <source-file src="libs/ios/AFNetworking/AFNetworking/AFHTTPRequestOperation.m" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFHTTPRequestOperationManager.h" />
+        <source-file src="libs/ios/AFNetworking/AFNetworking/AFHTTPRequestOperationManager.m" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFHTTPSessionManager.h" />
+        <source-file src="libs/ios/AFNetworking/AFNetworking/AFHTTPSessionManager.m" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFNetworking.h" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFNetworkReachabilityManager.h" />
+        <source-file src="libs/ios/AFNetworking/AFNetworking/AFNetworkReachabilityManager.m" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFSecurityPolicy.h" />
+        <source-file src="libs/ios/AFNetworking/AFNetworking/AFSecurityPolicy.m" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFURLConnectionOperation.h" />
+        <source-file src="libs/ios/AFNetworking/AFNetworking/AFURLConnectionOperation.m" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFURLRequestSerialization.h" />
+        <source-file src="libs/ios/AFNetworking/AFNetworking/AFURLRequestSerialization.m" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFURLResponseSerialization.h" />
+        <source-file src="libs/ios/AFNetworking/AFNetworking/AFURLResponseSerialization.m" />
+        <header-file src="libs/ios/AFNetworking/AFNetworking/AFURLSessionManager.h" />
+        <source-file src="libs/ios/AFNetworking/AFNetworking/AFURLSessionManager.m" />
+
+        <header-file src="libs/ios/CWLSynthesizeSingleton/CWLSynthesizeSingleton.h" />
         
         <framework src="Security.framework" />
         <framework src="Foundation.framework" />
