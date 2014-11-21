@@ -9,20 +9,22 @@ Demo application sources [https://github.com/api-ai/api-ai-cordova-sample](https
 
 # Installation
 Just install it with Cordova CLI
-
+```shell
     cordova plugin add ai.api.apiaiplugin
+```
 
 # Usage
 
 Add to your **index.js** file (typically in **js** folder) in function **onDeviceReady** following code
-    
+```
     ApiAIPlugin.init("YOUR_SUBSCRIPTION_KEY", "YOUR_CLIENT_ACCESS_TOKEN", 
                         function(result) { /* success processing */ },
                         function(error) { /* error processing */ }
                     );
+```
 
-Add to your page with mic button function to make voice requests
-
+Add to your page with mic button function to make voice requests:
+```
     function sendVoice() {
         try {     
           ApiAIPlugin.requestVoice(
@@ -41,13 +43,15 @@ Add to your page with mic button function to make voice requests
             alert(e);
         }
     }
+```
 
-And call it from your button **onclick**
-
+And call it from your button ```onclick```:
+```html
     <div onclick="sendVoice();">Mic</div>
+```
 
-If you want make text requests add the following code
-
+If you want make text requests add the following code:
+```
     function sendText(query_text) {
         try {
             ApiAIPlugin.requestText(
@@ -66,19 +70,22 @@ If you want make text requests add the following code
             alert(e);
         }
     }
+```
 
-If you want to create voice level visualization use function **levelMeterCallback** to set callback for processing soundLevel
-
+If you want to create voice level visualization use function ```levelMeterCallback``` to set callback for processing soundLevel:
+```
     ApiAIPlugin.levelMeterCallback(function(level) {
        console.log(level);
     });
+```
 
-Also you can use function to cancel current api.ai request
-
+Also you can use function to cancel current api.ai request:
+```
     ApiAIPlugin.cancelAllRequests();
+```
 
 # API
-
+```
     // Initialize plugin
     //  clientAccessToken - String - client access token from your developer console
     //  subscriptionKey - String - subscription key from your developer console
@@ -104,3 +111,4 @@ Also you can use function to cancel current api.ai request
 
     // Cancel all pending requests
     ApiAIPlugin.cancelAllRequests()
+```
