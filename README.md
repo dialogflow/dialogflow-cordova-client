@@ -8,7 +8,8 @@ Github issues [https://github.com/api-ai/api-ai-cordova/issues](https://github.c
 Demo application sources [https://github.com/api-ai/api-ai-cordova-sample](https://github.com/api-ai/api-ai-cordova-sample)  
 
 # Installation
-Just install it with Cordova CLI
+* Make sure that [Cordova CLI](http://cordova.apache.org/docs/en/4.0.0/guide_cli_index.md.html) is installed
+* Install api.ai plugin with Cordova CLI:
 ```shell
 cordova plugin add ai.api.apiaiplugin
 ```
@@ -44,7 +45,7 @@ function sendVoice() {
 }
 ```
 
-And call it from your button ```onclick```:
+And call it from your button's ```onclick```:
 ```html
 <div onclick="sendVoice();">Mic</div>
 ```
