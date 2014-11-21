@@ -1,6 +1,6 @@
 api-ai-cordova
 ==============
-Plugin makes it easy to integrate your Cordova application with [Api.ai](http://api.ai) natural language processing service. This plugin supports Android and iOS mobile operation systems.
+Plugin makes it easy to integrate your Cordova application with [api.ai](http://api.ai) natural language processing service. This plugin supports Android and iOS mobile operation systems.
 
 Project on Github [https://github.com/api-ai/api-ai-cordova](https://github.com/api-ai/api-ai-cordova)  
 Page in Cordova Plugins Registry [http://plugins.cordova.io/#/package/ai.api.apiaiplugin](http://plugins.cordova.io/#/package/ai.api.apiaiplugin)  
