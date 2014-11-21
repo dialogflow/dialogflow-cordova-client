@@ -27,46 +27,75 @@ var ApiAIPlugin = function() {
 };
 
 ApiAIPlugin.prototype = {
-             init:function(baseURL, clientAccessToken, subscriptionKey) {
-                 cordova.exec(
-                     null, 
+    init: function(subscriptionKey, clientAccessToken, success, error) {
+
+        if (!subscriptionKey) {
+            throw new Error("subscriptionKey must not be empty");
+        };
+
+        if (!clientAccessToken) {
+            throw new Error("clientAccessToken must not be empty");
+        };
+
+        success = success || null;
+        error = error || null;
+
+        cordova.exec(
+             success, 
+             error,
+             "ApiAIPlugin",
+             "init",
+             ["https://api.api.ai/v1", clientAccessToken, subscriptionKey]
+             );
+    },
+
+    requestText: function(options, success, error) {
+
+        if (!options) {
+            throw new Error("options must not be null");
+        };
+
+        success = success || null;
+        error = error || null;
+
+        cordova.exec(success,
+                     error,
+                     "ApiAIPlugin",
+                     "requestText",
+                     [options]);
+    },
+
+    requestVoice: function (options, success, error) {
+
+        if (!options) {
+            throw new Error("options must not be null");
+        };
+
+        success = success || null;
+        error = error || null;
+
+        cordova.exec(success,
+                     error,
+                     "ApiAIPlugin",
+                     "requestVoice",
+                     [options]);
+    },
+
+    levelMeterCallback: function (callback) {
+        cordova.exec(callback,
+                      null,
+                      "ApiAIPlugin",
+                      "levelMeterCallback",
+                      []);
+     },
+
+    cancelAllRequests: function () {
+        cordova.exec(null,
                      null,
                      "ApiAIPlugin",
-                     "init",
-                     [baseURL, clientAccessToken, subscriptionKey]
-                     );
-             },
-            
-            requestText: function(callback, errCallbac, options) {
-                    cordova.exec(callback,
-                                 errCallbac,
-                                 "ApiAIPlugin",
-                                 "requestText",
-                                 [options]);
-            },
-    
-            requestVoice: function (callback, errCallbac, options) {
-                    cordova.exec(callback,
-                                 errCallbac,
-                                 "ApiAIPlugin",
-                                 "requestVoice",
-                                 [options]);
-            },
-             levelMeterCallback: function (callback) {
-                 cordova.exec(callback,
-                              null,
-                              "ApiAIPlugin",
-                              "levelMeterCallback",
-                              []);
-             },
-            
-            cancelAllRequests: function () {
-                cordova.exec(callback,
-                             errCallbac,
-                             "ApiAIPlugin",
-                             "cancelAllRequests",
-                             []);
-            }
+                     "cancelAllRequests",
+                     []);
+    }
 
 };
 
