@@ -123,7 +123,7 @@
                                     callbackId:command.callbackId];
     }];
     
-    [voiceRequest setSoundLevelHandleBlock:^(AIRequest *request, CGFloat level){
+    [voiceRequest setSoundLevelHandleBlock:^(AIRequest *request, float level){
         if (self.levelMeterCommand) {
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:(double)level];
             result.keepCallback = @(YES);
