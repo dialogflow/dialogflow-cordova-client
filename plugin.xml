@@ -12,10 +12,10 @@
     <license>Apache 2.0 License</license>
 
     <engines>
-        <engine name="cordova" version=">=3.0.0" />
+        <engine name="cordova" version=">=3.4.0" />
     </engines>
     
-    <dependency id="android.support.v4"/>
+    <!-- <dependency id="android.support.v4"/> -->
 
     <js-module name="ApiAIPlugin" src="www/ApiAIPlugin.js">
         <clobbers target="window.ApiAIPlugin" />
