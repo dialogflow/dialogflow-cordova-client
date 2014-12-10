@@ -1,9 +1,0 @@
-[submodule "libs/ios/api-ai-ios-sdk"]
-	path = libs/ios/api-ai-ios-sdk
-	url = git@github.com:api-ai/api-ai-ios-sdk.git
-[submodule "libs/ios/AFNetworking"]
-	path = libs/ios/AFNetworking
-	url = git@github.com:AFNetworking/AFNetworking.git
-[submodule "libs/ios/CWLSynthesizeSingleton"]
-	path = libs/ios/CWLSynthesizeSingleton
-	url = git@github.com:incbee/CWLSynthesizeSingleton.git
