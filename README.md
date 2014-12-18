@@ -111,4 +111,7 @@ ApiAIPlugin.levelMeterCallback(callback)
 
 // Cancel all pending requests
 ApiAIPlugin.cancelAllRequests()
+
+// Stop current listening process and send request to server
+ApiAIPlugin.stopListening()
 ```
