@@ -10,7 +10,6 @@
 #import "ApiAI.h"
 #import "AITextRequest.h"
 #import "AIVoiceRequest.h"
-#import "AFNetworking.h"
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -111,12 +110,15 @@
         voiceRequest.resetContexts = [options[@"resetContexts"] boolValue];
     }
     
+    if (options[@"useVAD"]) {
+        voiceRequest.useVADForAutoCommit = [options[@"useVAD"] boolValue];
+    }
+    
     [voiceRequest setCompletionBlockSuccess:^(AIRequest *request, id response) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
         [self.commandDelegate sendPluginResult:result
                                     callbackId:command.callbackId];
     } failure:^(AIRequest *request, NSError *error) {
-        NSLog(@"%@", request.HTTPRequestOperation.responseString);
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
                                                     messageAsString:[error localizedDescription]];
         [self.commandDelegate sendPluginResult:result
@@ -142,7 +144,7 @@
 
 - (void)cancelAllRequests:(CDVInvokedUrlCommand*)command
 {
-    
+    [_api cancellAllRequests];
 }
 
 @end
