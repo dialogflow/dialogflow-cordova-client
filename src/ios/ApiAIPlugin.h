@@ -17,4 +17,6 @@
 
 - (void)cancelAllRequests:(CDVInvokedUrlCommand*)command;
 
+- (void)stopListening:(CDVInvokedUrlCommand*)command;
+
 @end

@@ -32,6 +32,8 @@
 
 @property(nonatomic, strong) CDVInvokedUrlCommand *levelMeterCommand;
 
+@property(nonatomic, strong) AIVoiceRequest *lastVoiceRequest;
+
 @end
 
 @implementation ApiAIPlugin
@@ -89,6 +91,8 @@
                                     callbackId:command.callbackId];
     }];
     
+    self.la
+    
     [_api enqueue:textRequest];
 }
 
@@ -116,13 +120,18 @@
     
     [voiceRequest setCompletionBlockSuccess:^(AIRequest *request, id response) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+        self.lastVoiceRequest = nil;
+        
         [self.commandDelegate sendPluginResult:result
                                     callbackId:command.callbackId];
     } failure:^(AIRequest *request, NSError *error) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
                                                     messageAsString:[error localizedDescription]];
+        self.lastVoiceRequest = nil;
+        
         [self.commandDelegate sendPluginResult:result
                                     callbackId:command.callbackId];
+        
     }];
     
     [voiceRequest setSoundLevelHandleBlock:^(AIRequest *request, float level){
@@ -133,6 +142,8 @@
                                         callbackId:self.levelMeterCommand.callbackId];
         }
     }];
+    
+    self.lastVoiceRequest = voiceRequest;
     
     [_api enqueue:voiceRequest];
 }
@@ -145,6 +156,12 @@
 - (void)cancelAllRequests:(CDVInvokedUrlCommand*)command
 {
     [_api cancellAllRequests];
+}
+
+- (void)stopListening:(CDVInvokedUrlCommand*)command
+{
+    [self.lastVoiceRequest cancel];
+    self.lastVoiceRequest = nil;
 }
 
 @end
