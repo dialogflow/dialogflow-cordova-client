@@ -91,8 +91,6 @@
                                     callbackId:command.callbackId];
     }];
     
-    self.la
-    
     [_api enqueue:textRequest];
 }
 
