@@ -136,6 +136,9 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         } else if (action.equals("cancelAllRequests")) {
             this.cancelAllRequests(callbackContext);
             return true;
+        } else if (action.equals("stopListening")) {
+            this.stopListening(callbackContext);
+            return true;
         } else if (action.equals("levelMeterCallback")) {
             setLevelMeterCallback(callbackContext);
             return true;
@@ -180,6 +183,15 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             if (callbackContext == currentCallbacks) {
                 currentCallbacks = null;
             }
+        }
+    }
+
+    public void stopListening(CallbackContext callbackContext) {
+        try {
+            aiService.stopListening();
+            callbackContext.success();
+        } catch(Exception ex){
+            callbackContext.error(ex.getMessage());
         }
     }
 
