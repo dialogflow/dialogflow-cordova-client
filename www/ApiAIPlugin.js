@@ -1,4 +1,4 @@
-cordova.define("ai.api.apiaiplugin.ApiAIPlugin", function(require, exports, module) { /***********************************************************************************************************************
+/***********************************************************************************************************************
  *
  * API.AI Cordova Android SDK
  * =================================================
@@ -110,4 +110,3 @@ ApiAIPlugin.prototype = {
 var ApiAIPlugin = new ApiAIPlugin();
 
 module.exports = ApiAIPlugin;
-});
