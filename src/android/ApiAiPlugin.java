@@ -30,6 +30,7 @@ import org.apache.cordova.PluginResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,27 +50,37 @@ import ai.api.model.AIResponse;
 
 public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
+    private static final String TAG = ApiAiPlugin.class.getName();
+
     private AIService aiService;
     private Gson gson;
 
     private CallbackContext currentCallbacks;
+
     private CallbackContext levelMeterCallback;
+    private CallbackContext listeningStartCallback;
+    private CallbackContext listeningFinishCallback;
 
     @Override
-    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+    public void initialize(final CordovaInterface cordova, final CordovaWebView webView) {
         super.initialize(cordova, webView);
         
         gson = GsonFactory.getGson();
     }
 
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+    public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("init")) {
-            String baseURL = args.getString(0); 
-            String clientAccessToken = args.getString(1); 
-            String subscriptionKey = args.getString(2); 
+            final String baseURL = args.getString(0); 
+            final String clientAccessToken = args.getString(1); 
+            final String subscriptionKey = args.getString(2); 
 
-            this.init(baseURL,clientAccessToken,subscriptionKey, callbackContext);
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    init(baseURL,clientAccessToken,subscriptionKey, callbackContext);
+                }
+            });
             
             return true;
         } else if (action.equals("requestText")) {
@@ -142,7 +153,14 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         } else if (action.equals("levelMeterCallback")) {
             setLevelMeterCallback(callbackContext);
             return true;
+        } else if (action.equals("setListeningStartCallback")) {
+            setListeningStartCallback(callbackContext);
+            return true;
+        } else if (action.equals("setListeningFinishCallback")) {
+            setListeningFinishCallback(callbackContext);
+            return true;
         }
+
         return false;
     }
 
@@ -151,14 +169,15 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         try{
             final AIConfiguration config = new AIConfiguration(clientAccessToken,
                     subscriptionKey, AIConfiguration.SupportedLanguages.English,
-                    AIConfiguration.RecognitionEngine.Speaktoit);
+                    AIConfiguration.RecognitionEngine.Google);
             aiService = AIService.getService(this.cordova.getActivity().getApplicationContext(), config);
             aiService.setListener(this);
 
             callbackContext.success();
         }
         catch(Exception ex){
-            callbackContext.error(ex.getMessage());
+            Log.e(TAG, "Init", ex);
+            callbackContext.error(ex.toString());
         }
     }
 
@@ -169,6 +188,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             callbackContext.success(jsonResponse);
         }
         catch(Exception ex){
+            Log.e(TAG, "textRequest", ex);
             callbackContext.error(ex.getMessage());
         }
     }
@@ -179,7 +199,9 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
            aiService.startListening(contexts);
         }
         catch(Exception ex){
-            callbackContext.error(ex.getMessage());
+            Log.e(TAG, "requestVoice", ex);
+            callbackContext.error(ex.toString());
+            //callbackContext.error(ex.getMessage());
             if (callbackContext == currentCallbacks) {
                 currentCallbacks = null;
             }
@@ -191,6 +213,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             aiService.stopListening();
             callbackContext.success();
         } catch(Exception ex){
+            Log.e(TAG, "stopListening", ex);
             callbackContext.error(ex.getMessage());
         }
     }
@@ -201,12 +224,21 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
            callbackContext.success();
         }
         catch(Exception ex){
+            Log.e(TAG, "cancelAllRequests", ex);
             callbackContext.error(ex.getMessage());
         }
     }
 
-    public void setLevelMeterCallback(final CallbackContext callbacks){
-        levelMeterCallback = callbacks;
+    public void setLevelMeterCallback(final CallbackContext callback){
+        levelMeterCallback = callback;
+    }
+
+    public void setListeningStartCallback(final CallbackContext callback){
+        listeningStartCallback = callback;
+    }
+
+    public void setListeningFinishCallback(final CallbackContext callback){
+        listeningFinishCallback = callback;
     }
 
     @Override
@@ -215,7 +247,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
            aiService.cancel();
         }
         catch(Exception ex){
-            ex.printStackTrace();
+            Log.e(TAG, "onReset", ex);
         }
     }
 
@@ -277,12 +309,20 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
     @Override
     public void onListeningStarted() {
-        
+        if (listeningStartCallback != null) {
+            final PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+            pluginResult.setKeepCallback(true);
+            listeningStartCallback.sendPluginResult(pluginResult);
+        }
     }
 
     @Override
     public void onListeningFinished() {
-        
+        if (listeningFinishCallback != null) {
+            final PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+            pluginResult.setKeepCallback(true);
+            listeningFinishCallback.sendPluginResult(pluginResult);
+        }
     }
 
 }

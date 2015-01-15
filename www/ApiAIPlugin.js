@@ -81,6 +81,22 @@ ApiAIPlugin.prototype = {
                      [options]);
     },
 
+    setListeningStartCallback: function (callback) {
+        cordova.exec(callback,
+                      null,
+                      "ApiAIPlugin",
+                      "setListeningStartCallback",
+                      []);
+     },
+
+     setListeningFinishCallback: function (callback) {
+         cordova.exec(callback,
+                       null,
+                       "ApiAIPlugin",
+                       "setListeningFinishCallback",
+                       []);
+      },
+
     levelMeterCallback: function (callback) {
         cordova.exec(callback,
                       null,
