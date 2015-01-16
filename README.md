@@ -45,7 +45,40 @@ function sendVoice() {
 }
 ```
 
-And call it from your button's ```onclick```:
+If you want to create voice level visualization use function ```levelMeterCallback``` to set callback for processing soundLevel:
+```javascript
+ApiAIPlugin.levelMeterCallback(function(level) {
+   console.log(level);
+});
+```
+
+If you want to handle start and stop listening events, add appropriate handlers:
+```javascript
+ApiAIPlugin.setListeningStartCallback(function () {
+    console.log("listening started");
+});
+
+ApiAIPlugin.setListeningFinishCallback(function () {
+    console.log("listening stopped");
+});
+```
+
+**Please note**, that handlers must be added before ```ApiAIPlugin.requestVoice``` call, like here:
+```javascript
+function sendVoice() {
+    try {    
+
+      // !!!
+      ApiAIPlugin.levelMeterCallback(function(level) {
+         console.log(level);
+      }); 
+
+      ApiAIPlugin.requestVoice(
+        {
+            lang:"en"
+```
+
+Then add call ```sendVoice``` function from your button's ```onclick```:
 ```html
 <div onclick="sendVoice();">Mic</div>
 ```
@@ -70,13 +103,6 @@ function sendText(query_text) {
         alert(e);
     }
 }
-```
-
-If you want to create voice level visualization use function ```levelMeterCallback``` to set callback for processing soundLevel:
-```javascript
-ApiAIPlugin.levelMeterCallback(function(level) {
-   console.log(level);
-});
 ```
 
 Also you can use function to cancel current api.ai request:
