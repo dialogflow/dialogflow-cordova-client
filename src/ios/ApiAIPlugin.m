@@ -32,6 +32,9 @@
 
 @property(nonatomic, strong) CDVInvokedUrlCommand *levelMeterCommand;
 
+@property(nonatomic, strong) CDVInvokedUrlCommand *listeningStartCallback;
+@property(nonatomic, strong) CDVInvokedUrlCommand *listeningFinishCallback;
+
 @property(nonatomic, strong) AIVoiceRequest *lastVoiceRequest;
 
 @end
@@ -132,6 +135,24 @@
         
     }];
     
+    [voiceRequest setSoundRecordBeginBlock:^(AIRequest *request){
+        if (self.listeningStartCallback) {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            result.keepCallback = @(YES);
+            [self.commandDelegate sendPluginResult:result
+                                        callbackId:self.listeningStartCallback.callbackId];
+        }
+    }];
+    
+    [voiceRequest setSoundRecordEndBlock:^(AIRequest *request){
+        if (self.listeningFinishCallback) {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            result.keepCallback = @(YES);
+            [self.commandDelegate sendPluginResult:result
+                                        callbackId:self.listeningFinishCallback.callbackId];
+        }
+    }];
+    
     [voiceRequest setSoundLevelHandleBlock:^(AIRequest *request, float level){
         if (self.levelMeterCommand) {
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:(double)level];
@@ -144,6 +165,16 @@
     self.lastVoiceRequest = voiceRequest;
     
     [_api enqueue:voiceRequest];
+}
+
+- (void)listeningStartCallback:(CDVInvokedUrlCommand*)command
+{
+    self.listeningStartCallback = command;
+}
+
+- (void)listeningFinishCallback:(CDVInvokedUrlCommand*)command
+{
+    self.listeningFinishCallback = command;
 }
 
 - (void)levelMeterCallback:(CDVInvokedUrlCommand*)command
