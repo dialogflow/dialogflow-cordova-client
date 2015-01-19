@@ -189,8 +189,7 @@
 
 - (void)stopListening:(CDVInvokedUrlCommand*)command
 {
-    [self.lastVoiceRequest cancel];
-    self.lastVoiceRequest = nil;
+    [self.lastVoiceRequest commitVoice];
 }
 
 @end
