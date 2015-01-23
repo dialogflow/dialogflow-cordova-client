@@ -27,15 +27,23 @@ var ApiAIPlugin = function() {
 };
 
 ApiAIPlugin.prototype = {
-    init: function(subscriptionKey, clientAccessToken, success, error) {
+    init: function(options, success, error) {
 
-        if (!subscriptionKey) {
+        if (!options) {
+            throw new Error("options must not be null");
+        };
+
+        if (!options.subscriptionKey) {
             throw new Error("subscriptionKey must not be empty");
         };
 
-        if (!clientAccessToken) {
+        if (!options.clientAccessToken) {
             throw new Error("clientAccessToken must not be empty");
         };
+
+        if (!options.baseURL){
+            options.baseURL = "https://api.api.ai/v1/";
+        }
 
         success = success || null;
         error = error || null;
@@ -45,7 +53,7 @@ ApiAIPlugin.prototype = {
              error,
              "ApiAIPlugin",
              "init",
-             ["https://api.api.ai/v1", clientAccessToken, subscriptionKey]
+             [options]
              );
     },
 

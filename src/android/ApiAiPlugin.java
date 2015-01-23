@@ -71,14 +71,13 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("init")) {
-            final String baseURL = args.getString(0); 
-            final String clientAccessToken = args.getString(1); 
-            final String subscriptionKey = args.getString(2); 
+
+            final JSONObject argObject =  args.getJSONObject(0);
 
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    init(baseURL,clientAccessToken,subscriptionKey, callbackContext);
+                    init(argObject, callbackContext);
                 }
             });
             
@@ -164,12 +163,23 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         return false;
     }
 
-    public void init(String baseUrl, String clientAccessToken, String subscriptionKey, CallbackContext callbackContext) {
-        
+    public void init(final JSONObject argObject, CallbackContext callbackContext) {
         try{
+
+            final String baseURL = argObject.optString("baseURL", "https://api.api.ai/v1/"); 
+            final String clientAccessToken = argObject.getString("clientAccessToken"); 
+            final String subscriptionKey = argObject.getString("subscriptionKey"); 
+            final String language = argObject.optString("lang", "en");
+            final boolean debugMode = argObject.optBoolean("debug", false);
+
+            final AIConfiguration.SupportedLanguages lang = AIConfiguration.SupportedLanguages.fromLanguageTag(language);
             final AIConfiguration config = new AIConfiguration(clientAccessToken,
-                    subscriptionKey, AIConfiguration.SupportedLanguages.English,
-                    AIConfiguration.RecognitionEngine.Google);
+                    subscriptionKey, 
+                    lang,
+                    AIConfiguration.RecognitionEngine.System);
+
+            config.setDebug(debugMode);
+
             aiService = AIService.getService(this.cordova.getActivity().getApplicationContext(), config);
             aiService.setListener(this);
 
