@@ -19,4 +19,9 @@
 
 - (void)stopListening:(CDVInvokedUrlCommand*)command;
 
+- (void)levelMeterCallback:(CDVInvokedUrlCommand*)command;
+
+- (void)setListeningFinishCallback:(CDVInvokedUrlCommand*)command;
+- (void)setListeningStartCallback:(CDVInvokedUrlCommand*)command;
+
 @end

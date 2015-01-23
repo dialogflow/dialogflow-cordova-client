@@ -93,7 +93,7 @@ ApiAIPlugin.prototype = {
         cordova.exec(callback,
                       null,
                       "ApiAIPlugin",
-                      "setListeningStartCallback",
+                      "listeningStartCallback",
                       []);
      },
 
@@ -101,7 +101,7 @@ ApiAIPlugin.prototype = {
          cordova.exec(callback,
                        null,
                        "ApiAIPlugin",
-                       "setListeningFinishCallback",
+                       "listeningFinishCallback",
                        []);
       },
 

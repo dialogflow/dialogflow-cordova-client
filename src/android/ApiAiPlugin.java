@@ -152,10 +152,10 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         } else if (action.equals("levelMeterCallback")) {
             setLevelMeterCallback(callbackContext);
             return true;
-        } else if (action.equals("setListeningStartCallback")) {
+        } else if (action.equals("listeningStartCallback")) {
             setListeningStartCallback(callbackContext);
             return true;
-        } else if (action.equals("setListeningFinishCallback")) {
+        } else if (action.equals("listeningFinishCallback")) {
             setListeningFinishCallback(callbackContext);
             return true;
         }
