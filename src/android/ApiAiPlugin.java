@@ -293,7 +293,10 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
     @Override
     public void onResult(final AIResponse response) {
         if (currentCallbacks != null) {
+            Log.d(TAG, response.getStatus().getErrorType());
+
             final String jsonResponse = gson.toJson(response);
+
             currentCallbacks.success(jsonResponse);
             currentCallbacks = null;
         }
