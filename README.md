@@ -17,10 +17,15 @@ cordova plugin add ai.api.apiaiplugin
 # Usage
 Add to your **index.js** file (typically in **js** folder) in function **onDeviceReady** following code
 ```javascript
-ApiAIPlugin.init("YOUR_SUBSCRIPTION_KEY", "YOUR_CLIENT_ACCESS_TOKEN", 
-                    function(result) { /* success processing */ },
-                    function(error) { /* error processing */ }
-                );
+ApiAIPlugin.init(
+        {
+            subscriptionKey: "YOUR_SUBSCRIPTION_KEY", // insert your subscription key here
+            clientAccessToken: "YOUR_CLIENT_ACCESS_TOKEN", // insert your client access key here
+            lang: "ru" // set lang tag from list of supported languages
+        }, 
+        function(result) { /* success processing */ },
+        function(error) { /* error processing */ }
+    );
 ```
 
 Add to your page with mic button function to make voice requests:
@@ -28,9 +33,7 @@ Add to your page with mic button function to make voice requests:
 function sendVoice() {
     try {     
       ApiAIPlugin.requestVoice(
-        {
-            lang:"en"
-        },
+        {}, // empty for simple requests, some optional parameters can be here
         function (response) {
             // place your result processing here
             alert(JSON.stringify(response));
@@ -49,6 +52,7 @@ If you want to create voice level visualization use function ```levelMeterCallba
 ```javascript
 ApiAIPlugin.levelMeterCallback(function(level) {
    console.log(level);
+   // add visualization code here
 });
 ```
 
@@ -73,9 +77,7 @@ function sendVoice() {
          console.log(level);
       }); 
 
-      ApiAIPlugin.requestVoice(
-        {
-            lang:"en"
+      ApiAIPlugin.requestVoice(...
 ```
 
 Then add call ```sendVoice``` function from your button's ```onclick```:
@@ -113,22 +115,25 @@ ApiAIPlugin.cancelAllRequests();
 # API
 ```javascript
 // Initialize plugin
-//  clientAccessToken - String - client access token from your developer console
-//  subscriptionKey - String - subscription key from your developer console
-//  success - Function (optional) - callback for initialization success
-//  error - Function (optional) - callback for initialization error
+//  options - JSON object - `{
+//                              subscriptionKey: "your_subscription_key",
+//                              clientAccessToken: "your_access_token",
+//                              lang: "one_of_supported_languages"
+//                           }`
+//  success - Function (optional) - callback for initialization success: function () {}
+//  error - Function (optional) - callback for initialization error: function (error) {}
 ApiAIPlugin.init(clientAccessToken, subscriptionKey, success, error)
 
 // Start listening, then make voice request to api.ai service
-//  options - JSON object - voice request options, now should be `{ lang: "en" }`
-//  success - Function (optional) - callback for request success
-//  error - Function (optional) - callback for request error
+//  options - JSON object - voice request options (reserved for future use)
+//  success - Function (optional) - callback for request success `function (response) {}` where response is Object 
+//  error - Function (optional) - callback for request error `function (error) {}` where error is String
 ApiAIPlugin.requestVoice(options, success, error)
 
 // Make text request to api.ai service
 //  options - JSON object - `{ query: "queryText" }`
-//  success - Function (optional) - callback for request success
-//  error - Function (optional) - callback for request error
+//  success - Function (optional) - callback for request success `function (response) {}` where response is Object 
+//  error - Function (optional) - callback for request error `function (error) {}` where error is String
 ApiAIPlugin.requestText(options, success, error)
 
 // Set callback for sound level. Need to call only once after initialization
@@ -140,4 +145,13 @@ ApiAIPlugin.cancelAllRequests()
 
 // Stop current listening process and send request to server
 ApiAIPlugin.stopListening()
+
+// Set callback for listening started event
+//  callback - Function - must be simple function without arguments: function () {} 
+ApiAIPlugin.setListeningStartCallback(callback)
+
+// Set callback for listening finished callback
+//  callback - Function - must be simple function without arguments: function () {}
+ApiAIPlugin.setListeningFinishCallback(callback)
+
 ```

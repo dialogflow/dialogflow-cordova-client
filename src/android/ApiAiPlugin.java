@@ -195,7 +195,10 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         try{
             final AIResponse response = aiService.textRequest(request);
             final String jsonResponse = gson.toJson(response);
-            callbackContext.success(jsonResponse);
+
+            final JSONObject jsonObject = new JSONObject(jsonResponse);
+
+            callbackContext.success(jsonObject);
         }
         catch(Exception ex){
             Log.e(TAG, "textRequest", ex);
@@ -293,12 +296,22 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
     @Override
     public void onResult(final AIResponse response) {
         if (currentCallbacks != null) {
-            Log.d(TAG, response.getStatus().getErrorType());
+            try{
+                
+                Log.d(TAG, response.getStatus().getErrorType());
 
-            final String jsonResponse = gson.toJson(response);
+                final String jsonResponse = gson.toJson(response);
+                final JSONObject jsonObject = new JSONObject(jsonResponse);
 
-            currentCallbacks.success(jsonResponse);
-            currentCallbacks = null;
+                currentCallbacks.success(jsonObject);
+            }
+            catch(Exception ex){
+                Log.e(TAG, "onReset", ex);
+                currentCallbacks.error(ex.getMessage());
+            }
+            finally{
+                currentCallbacks = null;
+            }
         }
     }
 

@@ -74,11 +74,8 @@ ApiAIPlugin.prototype = {
     },
 
     requestVoice: function (options, success, error) {
-
-        if (!options) {
-            throw new Error("options must not be null");
-        };
-
+        
+        options = options || {};
         success = success || null;
         error = error || null;
 
