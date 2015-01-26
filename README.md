@@ -162,7 +162,7 @@ ApiAIPlugin.setListeningFinishCallback(callback)
 * de
 * pt
 * pt-BR
-* ed
+* es
 * fr
 * it
 * ja
