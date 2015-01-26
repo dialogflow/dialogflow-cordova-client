@@ -54,9 +54,27 @@
     
     id <AIConfiguration> configuration = [[CustomConfiguration alloc] init];
     
-    configuration.baseURL = [NSURL URLWithString:command.arguments[0]];
-    configuration.clientAccessToken = command.arguments[1];
-    configuration.subscriptionKey = command.arguments[2];
+    NSDictionary *parameters = [command.arguments firstObject];
+    
+    NSString *baseURL = parameters[@"baseURL"];
+    if (baseURL) {
+        configuration.baseURL = [NSURL URLWithString:baseURL];
+    }
+    
+    NSString *clientAccessToken = parameters[@"clientAccessToken"];
+    if (clientAccessToken) {
+        configuration.clientAccessToken = clientAccessToken;
+    }
+    
+    NSString *subscriptionKey = parameters[@"subscriptionKey"];
+    if (subscriptionKey) {
+        configuration.clientAccessToken = subscriptionKey;
+    }
+    
+    NSString *lang = parameters[@"lang"];
+    if (lang) {
+        api.lang = lang;
+    }
     
     api.configuration = configuration;
     
