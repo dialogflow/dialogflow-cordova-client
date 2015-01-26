@@ -155,3 +155,18 @@ ApiAIPlugin.setListeningStartCallback(callback)
 ApiAIPlugin.setListeningFinishCallback(callback)
 
 ```
+
+# Supported Languages
+* en
+* ru
+* de
+* pt
+* pt-BR
+* ed
+* fr
+* it
+* ja
+* ko
+* zh-CN
+* zh-HK
+* zh-TW
