@@ -68,7 +68,7 @@
     
     NSString *subscriptionKey = parameters[@"subscriptionKey"];
     if (subscriptionKey) {
-        configuration.clientAccessToken = subscriptionKey;
+        configuration.subscriptionKey = subscriptionKey;
     }
     
     NSString *lang = parameters[@"lang"];
@@ -79,6 +79,10 @@
     api.configuration = configuration;
     
     self.api = api;
+    
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result
+                                callbackId:command.callbackId];
 }
 
 - (void)requestText:(CDVInvokedUrlCommand*)command
