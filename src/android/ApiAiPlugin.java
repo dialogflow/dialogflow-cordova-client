@@ -61,6 +61,9 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
     private CallbackContext listeningStartCallback;
     private CallbackContext listeningFinishCallback;
 
+    private float maxLevel;
+    private float minLevel;
+
     @Override
     public void initialize(final CordovaInterface cordova, final CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -209,6 +212,10 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
     public void requestVoice(List<AIContext> contexts, final CallbackContext callbackContext){
         try{
            currentCallbacks = callbackContext;
+
+           maxLevel = 10.0f;
+           minLevel = 0.0f;
+
            aiService.startListening(contexts);
         }
         catch(Exception ex){
@@ -326,8 +333,23 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
     @Override
     public void onAudioLevel(final float level) {
+        
+        float normLevel = level;
+
+        if (level > maxLevel) {
+            maxLevel = maxLevel + (level - maxLevel) / 2;
+            normLevel = maxLevel;
+        }
+
+        if (level < minLevel) {
+            minLevel = minLevel - (minLevel - level) / 2;
+            normLevel = minLevel;
+        }
+
+        normLevel = (normLevel - minLevel) / (maxLevel - minLevel);
+
         if (levelMeterCallback != null) {
-            final PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, (int)level);
+            final PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, (float)normLevel);
             pluginResult.setKeepCallback(true);
             levelMeterCallback.sendPluginResult(pluginResult);
         }

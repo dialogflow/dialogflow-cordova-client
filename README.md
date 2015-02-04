@@ -137,7 +137,7 @@ ApiAIPlugin.requestVoice(options, success, error)
 ApiAIPlugin.requestText(options, success, error)
 
 // Set callback for sound level. Need to call only once after initialization
-//  callback - Function - function must be `function(level) { }`, level is float value from 0 to 100
+//  callback - Function - function must be `function(level) { }`, level is float value from 0 to 1
 ApiAIPlugin.levelMeterCallback(callback)
 
 // Cancel all pending requests
