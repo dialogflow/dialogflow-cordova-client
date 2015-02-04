@@ -15,8 +15,6 @@
         <engine name="cordova" version=">=3.0.0" />
     </engines>
     
-    <dependency id="android.support.v4"/>
-
     <js-module name="ApiAIPlugin" src="www/ApiAIPlugin.js">
         <clobbers target="window.ApiAIPlugin" />
     </js-module>
@@ -70,6 +68,8 @@
                 <param name="android-package" value="ai.api.ApiAiPlugin" />
             </feature>
         </config-file>
+
+        <dependency id="android.support.v4"/>
 
         <source-file src="src/android/ApiAiPlugin.java" target-dir="src/ai/api" />
         <source-file src="libs/ailib.jar" target-dir="libs" />
