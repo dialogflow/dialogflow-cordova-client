@@ -181,7 +181,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
                     lang,
                     AIConfiguration.RecognitionEngine.System);
 
-            config.setDebug(debugMode);
+            config.setExperimental(debugMode);
 
             aiService = AIService.getService(this.cordova.getActivity().getApplicationContext(), config);
             aiService.setListener(this);
