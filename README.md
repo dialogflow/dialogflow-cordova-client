@@ -158,6 +158,7 @@ ApiAIPlugin.setListeningFinishCallback(callback)
 
 # Supported Languages
 * en
+* es
 * ru
 * de
 * pt
