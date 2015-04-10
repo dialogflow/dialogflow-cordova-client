@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import android.util.Log;
+import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,6 +175,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             final String subscriptionKey = argObject.getString("subscriptionKey"); 
             final String language = argObject.optString("lang", "en");
             final boolean debugMode = argObject.optBoolean("debug", false);
+            final String version = argObject.optString("version", "");
 
             final AIConfiguration.SupportedLanguages lang = AIConfiguration.SupportedLanguages.fromLanguageTag(language);
             final AIConfiguration config = new AIConfiguration(clientAccessToken,
@@ -182,6 +184,9 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
                     AIConfiguration.RecognitionEngine.System);
 
             config.setExperimental(debugMode);
+            if (!TextUtils.isEmpty(version)) {
+                config.setProtocolVersion(version);
+            }
 
             aiService = AIService.getService(this.cordova.getActivity().getApplicationContext(), config);
             aiService.setListener(this);
