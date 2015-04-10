@@ -76,6 +76,11 @@
         api.lang = lang;
     }
     
+    NSString *version = parameters[@"version"];
+    if (version && [version length]) {
+        api.version = version;
+    }
+    
     api.configuration = configuration;
     
     self.api = api;
