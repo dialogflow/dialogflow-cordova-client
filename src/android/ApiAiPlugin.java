@@ -30,6 +30,7 @@ import org.apache.cordova.PluginResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 import android.util.Log;
 import android.text.TextUtils;
 
@@ -43,11 +44,13 @@ import com.google.gson.JsonElement;
 import ai.api.AIConfiguration;
 import ai.api.AIListener;
 import ai.api.AIService;
+import ai.api.RequestExtras;
 import ai.api.GsonFactory;
 import ai.api.model.AIContext;
 import ai.api.model.AIError;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
+import ai.api.model.Entity;
 
 public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
@@ -61,6 +64,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
     private CallbackContext levelMeterCallback;
     private CallbackContext listeningStartCallback;
     private CallbackContext listeningFinishCallback;
+    private CallbackContext listeningCanceledCallback;
 
     private float maxLevel;
     private float minLevel;
@@ -90,31 +94,24 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             JSONObject argObject =  args.getJSONObject(0);
 
             if (argObject != null) {
-                final AIRequest request = new AIRequest();
+                final RequestExtras requestExtras = new RequestExtras();
+                String query = "";
 
                 if (argObject.has("query")) {
-                    request.setQuery(argObject.getString("query"));
+                    query = argObject.getString("query");
                 }
                 else {
                     callbackContext.error("Argument query must not be empty");
                 }
 
-                if (argObject.has("contexts")) {
-                    final List<AIContext> contexts = new ArrayList<AIContext>();
-                    final JSONArray arr = argObject.getJSONArray("contexts");
-                    for (int i = 0; i < arr.length(); i++) {
-                        final AIContext aiContext = new AIContext(arr.getString(i));
-                        contexts.add(aiContext);
-                    }
-
-                    request.setContexts(contexts);
-                }
+                fillContextsFromArg(argObject, requestExtras);
+                fillEntitiesFromArg(argObject, requestExtras);
 
                 if (argObject.has("resetContexts")) {
-                    request.setResetContexts(argObject.getBoolean("resetContexts"));
+                    requestExtras.setResetContexts(argObject.getBoolean("resetContexts"));
                 }
 
-                this.textRequest(request, callbackContext);
+                this.textRequest(query, requestExtras, callbackContext);
             }
             else{
                 callbackContext.error("Arguments is empty");
@@ -126,21 +123,16 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             JSONObject argObject =  args.getJSONObject(0);
 
             if (argObject != null) {
+                final RequestExtras requestExtras = new RequestExtras();
 
-                if (argObject.has("contexts")) {
-                    final List<AIContext> contexts = new ArrayList<AIContext>();
-                    final JSONArray arr = argObject.getJSONArray("contexts");
-                    for (int i = 0; i < arr.length(); i++) {
-                        final AIContext aiContext = new AIContext(arr.getString(i));
-                        contexts.add(aiContext);
-                    }
+                fillContextsFromArg(argObject, requestExtras);
+                fillEntitiesFromArg(argObject, requestExtras);
 
-                    this.requestVoice(contexts, callbackContext);
+                if (argObject.has("resetContexts")) {
+                    requestExtras.setResetContexts(argObject.getBoolean("resetContexts"));
                 }
-                else {
-                    this.requestVoice(null, callbackContext);    
-                }
-                
+
+                this.requestVoice(requestExtras, callbackContext);                
             }
             else{
                 this.requestVoice(null, callbackContext);
@@ -167,6 +159,31 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         return false;
     }
 
+    private void fillContextsFromArg(JSONObject argObject, RequestExtras requestExtras) throws JSONException { 
+        if (argObject.has("contexts")) {
+            final List<AIContext> contexts = new ArrayList<AIContext>();
+            final JSONArray arr = argObject.getJSONArray("contexts");
+            for (int i = 0; i < arr.length(); i++) {
+                final AIContext aiContext = new AIContext(arr.getString(i));
+                contexts.add(aiContext);
+            }
+
+            requestExtras.setContexts(contexts);
+        }
+    }
+
+    private void fillEntitiesFromArg(JSONObject argObject, RequestExtras requestExtras) throws JSONException { 
+        if (argObject.has("entities")) {
+            final JSONArray arr = argObject.getJSONArray("entities");
+            Log.d(TAG, "Entities: " + arr.toString());
+            final List<Entity> entities = Arrays.asList(gson.fromJson(arr.toString(), Entity[].class));
+
+            if (entities.size() > 0) {
+                requestExtras.setEntities(entities);
+            }
+        }
+    }
+
     public void init(final JSONObject argObject, CallbackContext callbackContext) {
         try{
 
@@ -183,7 +200,6 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
                     lang,
                     AIConfiguration.RecognitionEngine.System);
 
-            config.setExperimental(debugMode);
             if (!TextUtils.isEmpty(version)) {
                 config.setProtocolVersion(version);
             }
@@ -199,9 +215,9 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         }
     }
 
-    public void textRequest(final AIRequest request, CallbackContext callbackContext){
+    public void textRequest(final String query, final RequestExtras requestExtras, CallbackContext callbackContext){
         try{
-            final AIResponse response = aiService.textRequest(request);
+            final AIResponse response = aiService.textRequest(query, requestExtras);
             final String jsonResponse = gson.toJson(response);
 
             final JSONObject jsonObject = new JSONObject(jsonResponse);
@@ -214,14 +230,14 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         }
     }
 
-    public void requestVoice(List<AIContext> contexts, final CallbackContext callbackContext){
+    public void requestVoice(final RequestExtras requestExtras, final CallbackContext callbackContext){
         try{
            currentCallbacks = callbackContext;
 
            maxLevel = 10.0f;
            minLevel = 0.0f;
 
-           aiService.startListening(contexts);
+           aiService.startListening(requestExtras);
         }
         catch(Exception ex){
             Log.e(TAG, "requestVoice", ex);
@@ -375,6 +391,15 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             final PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
             pluginResult.setKeepCallback(true);
             listeningFinishCallback.sendPluginResult(pluginResult);
+        }
+    }
+
+    @Override
+    public void onListeningCanceled() {
+        if (listeningCanceledCallback != null) {
+            final PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+            pluginResult.setKeepCallback(true);
+            listeningCanceledCallback.sendPluginResult(pluginResult);
         }
     }
 
