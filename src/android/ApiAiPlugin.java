@@ -192,7 +192,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             final String subscriptionKey = argObject.getString("subscriptionKey"); 
             final String language = argObject.optString("lang", "en");
             final boolean debugMode = argObject.optBoolean("debug", false);
-            final String version = argObject.optString("version", "");
+            final String version = argObject.optString("version", "20150415");
 
             final AIConfiguration.SupportedLanguages lang = AIConfiguration.SupportedLanguages.fromLanguageTag(language);
             final AIConfiguration config = new AIConfiguration(clientAccessToken,

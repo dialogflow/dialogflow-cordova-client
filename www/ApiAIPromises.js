@@ -19,77 +19,59 @@
  *
  ***********************************************************************************************************************/
 
+
 var cordova = require('cordova'),
 exec = require('cordova/exec');
 
 var Q = require('ai.api.apiaiplugin.Q');
+var ApiAIPlugin = require('ai.api.apiaiplugin.ApiAIPlugin');
 
-var ApiAIPlugin = function() {
+var ApiAIPromises = function() {
         this.options = {};
 };
 
-ApiAIPlugin.prototype = {
-    init: function(options, success, error) {
+ApiAIPromises.prototype = {
+    init: function(options) {
+        var deferred = Q.defer();
 
-        if (!options) {
-            throw new Error("options must not be null");
-        };
+        ApiAIPlugin.init(options, 
+            function () {
+                deferred.resolve();
+             }, 
+             function (error) {
+                deferred.reject(new Error(error));
+             });
 
-        if (!options.subscriptionKey) {
-            throw new Error("subscriptionKey must not be empty");
-        };
-
-        if (!options.clientAccessToken) {
-            throw new Error("clientAccessToken must not be empty");
-        };
-
-        if (!options.baseURL){
-            options.baseURL = "https://api.api.ai/v1/";
-        }
-
-        if (!options.version) {
-            options.version = "20150415";
-        }
-
-        success = success || null;
-        error = error || null;
-
-        cordova.exec(
-             success, 
-             error,
-             "ApiAIPlugin",
-             "init",
-             [options]
-             );
+        return deferred.promise;
     },
 
-    requestText: function(options, success, error) {
+    requestText: function(options) {
 
-        if (!options) {
-            throw new Error("options must not be null");
-        };
+        var deferred = Q.defer();
 
-        success = success || null;
-        error = error || null;
+        ApiAIPlugin.requestText(options, 
+            function (response) {
+                deferred.resolve(response);
+             }, 
+             function (error) {
+                deferred.reject(new Error(error));
+             });
 
-        cordova.exec(success,
-                     error,
-                     "ApiAIPlugin",
-                     "requestText",
-                     [options]);
+        return deferred.promise;
     },
 
-    requestVoice: function (options, success, error) {
-        
-        options = options || {};
-        success = success || null;
-        error = error || null;
+    requestVoice: function (options) {
+        var deferred = Q.defer();
 
-        cordova.exec(success,
-                     error,
-                     "ApiAIPlugin",
-                     "requestVoice",
-                     [options]);
+        ApiAIPlugin.requestText(options, 
+            function (response) {
+                deferred.resolve(response);
+             }, 
+             function (error) {
+                deferred.reject(new Error(error));
+             });
+
+        return deferred.promise;
     },
 
     setListeningStartCallback: function (callback) {
@@ -131,9 +113,7 @@ ApiAIPlugin.prototype = {
                      "stopListening",
                      []);
    }
-
 };
 
-
-var ApiAIPlugin = new ApiAIPlugin();
-module.exports = ApiAIPlugin;
+var ApiAIPromises = new ApiAIPromises();
+module.exports = ApiAIPromises;

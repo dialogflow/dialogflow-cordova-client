@@ -20,17 +20,7 @@
  ***********************************************************************************************************************/
 
 exports.defineAutoTests = function() {
-	describe('ApiAIPlugin', function () {
-
-		var lang;
-		var subscriptionKey;
-		var accessToken;
-
-		beforeEach(function() {
-			this.lang = "en";
-			this.subscriptionKey = "cb9693af-85ce-4fbf-844a-5563722fc27f";
-			this.accessToken = "3485a96fb27744db83e78b8c4bc9e7b7";
-		});	
+	describe('init function', function () {
 
 		it("should exist", function() {
 	      expect(ApiAIPlugin).toBeDefined();
@@ -56,14 +46,13 @@ exports.defineAutoTests = function() {
 			expect(func).not.toThrow();
 		});
 
-	    it("should init success", function (done) {
+	    it("should success", function (done) {
 	    	var initSuccess;
 	    	ApiAIPlugin.init({
 		                         subscriptionKey: "cb9693af-85ce-4fbf-844a-5563722fc27f",
 		                         clientAccessToken: "3485a96fb27744db83e78b8c4bc9e7b7",
 		                         lang: "en",
-		                         baseURL: "https://api.api.ai/api/",
-		                         version: "20150204"
+		                         baseURL: "https://api.api.ai/api/"
 	                         },
 	                         function () {
                             	initSuccess = true;
@@ -75,9 +64,112 @@ exports.defineAutoTests = function() {
 	    						expect(initSuccess).toBe(true);
 	                            done();
 	                         });
-
 	    });
+
+
 	});
+
+	describe('requestText function', function () {
+
+		var lang;
+		var subscriptionKey;
+		var accessToken;
+
+		beforeEach(function (done) {
+			lang = "en";
+			subscriptionKey = "cb9693af-85ce-4fbf-844a-5563722fc27f";
+			accessToken = "3485a96fb27744db83e78b8c4bc9e7b7";
+
+	    	ApiAIPlugin.init({
+		                         subscriptionKey: subscriptionKey,
+		                         clientAccessToken: accessToken,
+		                         lang: lang,
+		                         baseURL: "https://api.api.ai/api/"
+	                         },
+	                         function () {
+                            	done();
+	                         },
+	                         function (error) {
+	                            done();
+	                         });
+		});	
+
+		it("should return response", function (done) {
+			ApiAIPlugin.requestText(
+			{
+				query: "Hello"
+			},
+			function (response) {
+			    expect(response).not.toBe(null);
+			    expect(response.result.resolvedQuery).toEqual("Hello");
+			    expect(response.result.action).toEqual("greeting");
+			    expect(response.result.fulfillment.speech).toEqual("Hi! How are you?");
+			    done();
+			},
+			function (error) {
+				expect(false).toBe(true);
+			    done();
+			});
+		});
+
+		it("should use input contexts", function (done) {
+			
+			ApiAIPromises.requestText(
+			{
+				query: "Hello"
+			})
+			.then(function (response) {
+				expect(response.result.action).toEqual("greeting");
+
+				return ApiAIPromises.requestText(
+				{
+					query: "Hello",
+					contexts: [ "firstContext" ],
+					resetContexts: true
+				});
+			})
+			.then(function (response) {
+				expect(response.result.action).toEqual("firstGreeting");
+
+				return ApiAIPromises.requestText(
+				{
+					query: "Hello",
+					contexts: [ "secondContext" ],
+					resetContexts: true
+				});
+			})
+			.then(function (response) {
+				expect(response.result.action).toEqual("secondGreeting");
+			})
+			.fail(function (error) {
+				expect(false).toBe(true);
+			})
+			.fin(function (error) {
+				done();
+			});
+		});
+
+		it("should return output contexts", function (done) {
+
+			ApiAIPromises.requestText(
+			{
+				query: "weather"
+			})
+			.then(function (response) {
+				expect(response.result.action).toEqual("showWeather");
+				expect(response.result.contexts).not.toBe(null);
+				expect(response.result.contexts.some(function(e) { return e.name == "weather"; })).toBe(true);
+			})
+			.fail(function (error) {
+				expect(false).toBe(true);
+			})
+			.fin(function (error) {
+				done();
+			});
+		});
+
+	});
+
 };
 
 

@@ -15,8 +15,16 @@
         <engine name="cordova" version=">=3.0.0" />
     </engines>
     
+    <js-module name="Q" src="www/lib/q.js">
+        <runs/>
+    </js-module>
+    
     <js-module name="ApiAIPlugin" src="www/ApiAIPlugin.js">
         <clobbers target="window.ApiAIPlugin" />
+    </js-module>
+    
+    <js-module name="ApiAIPromises" src="www/ApiAIPromises.js">
+        <clobbers target="window.ApiAIPromises" />
     </js-module>
     
     <platform name="ios">
