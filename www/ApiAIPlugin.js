@@ -22,8 +22,6 @@
 var cordova = require('cordova'),
 exec = require('cordova/exec');
 
-var Q = require('ai.api.apiaiplugin.Q');
-
 var ApiAIPlugin = function() {
         this.options = {};
 };
