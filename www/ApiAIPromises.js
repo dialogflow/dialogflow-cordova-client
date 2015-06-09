@@ -75,43 +75,23 @@ ApiAIPromises.prototype = {
     },
 
     setListeningStartCallback: function (callback) {
-        cordova.exec(callback,
-                      null,
-                      "ApiAIPlugin",
-                      "listeningStartCallback",
-                      []);
+        ApiAIPlugin.setListeningStartCallback(callback);
      },
 
      setListeningFinishCallback: function (callback) {
-         cordova.exec(callback,
-                       null,
-                       "ApiAIPlugin",
-                       "listeningFinishCallback",
-                       []);
+         ApiAIPlugin.setListeningFinishCallback(callback);
       },
 
     levelMeterCallback: function (callback) {
-        cordova.exec(callback,
-                      null,
-                      "ApiAIPlugin",
-                      "levelMeterCallback",
-                      []);
+        ApiAIPlugin.levelMeterCallback(callback);
      },
 
     cancelAllRequests: function () {
-        cordova.exec(null,
-                     null,
-                     "ApiAIPlugin",
-                     "cancelAllRequests",
-                     []);
+        ApiAIPlugin.cancelAllRequests();
     },
                
     stopListening: function () {
-        cordova.exec(null,
-                     null,
-                     "ApiAIPlugin",
-                     "stopListening",
-                     []);
+        ApiAIPlugin.stopListening();
    }
 };
 
