@@ -63,7 +63,7 @@ ApiAIPromises.prototype = {
     requestVoice: function (options) {
         var deferred = Q.defer();
 
-        ApiAIPlugin.requestText(options, 
+        ApiAIPlugin.requestVoice(options, 
             function (response) {
                 deferred.resolve(response);
              }, 
