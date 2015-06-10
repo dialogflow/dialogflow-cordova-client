@@ -80,33 +80,33 @@ exports.defineAutoTests = function() {
 			subscriptionKey = "cb9693af-85ce-4fbf-844a-5563722fc27f";
 			accessToken = "3485a96fb27744db83e78b8c4bc9e7b7";
 
-	    	ApiAIPlugin.init({
-		                         subscriptionKey: subscriptionKey,
-		                         clientAccessToken: accessToken,
-		                         lang: lang,
-		                         baseURL: "https://api.api.ai/api/"
-	                         },
-	                         function () {
-                            	done();
-	                         },
-	                         function (error) {
-	                            done();
-	                         });
+	    	ApiAIPromises.init({
+				subscriptionKey: subscriptionKey,
+				clientAccessToken: accessToken,
+				lang: lang,
+				baseURL: "https://api.api.ai/api/"
+            })
+	    	.then(function () {
+            	done();
+            })
+	    	.fail(function (error) {
+            	done();
+            });
 		});	
 
 		it("should return response", function (done) {
-			ApiAIPlugin.requestText(
+			ApiAIPromises.requestText(
 			{
 				query: "Hello"
-			},
-			function (response) {
+			})
+			.then(function (response) {
 			    expect(response).not.toBe(null);
 			    expect(response.result.resolvedQuery).toEqual("Hello");
 			    expect(response.result.action).toEqual("greeting");
 			    expect(response.result.fulfillment.speech).toEqual("Hi! How are you?");
 			    done();
-			},
-			function (error) {
+			})
+			.fail(function (error) {
 				expect(false).toBe(true);
 			    done();
 			});
@@ -144,7 +144,7 @@ exports.defineAutoTests = function() {
 			.fail(function (error) {
 				expect(false).toBe(true);
 			})
-			.fin(function (error) {
+			.fin(function () {
 				done();
 			});
 		});
@@ -163,7 +163,77 @@ exports.defineAutoTests = function() {
 			.fail(function (error) {
 				expect(false).toBe(true);
 			})
-			.fin(function (error) {
+			.fin(function () {
+				done();
+			});
+		});
+
+		it("should recieve parameters", function (done) {
+
+			ApiAIPromises.requestText(
+			{
+				query: "what is your name"
+			})
+			.then(function (response) {
+				expect(response.result.parameters).toBeDefined();
+				expect(response.result.parameters).not.toBe(null);
+				expect(response.result.parameters.my_name).toEqual("Sam");
+				expect(response.result.parameters.param).toEqual("blabla");
+
+				expect(response.result.contexts).toBeDefined();
+				expect(response.result.contexts).not.toBe(null);
+				
+				var outputContext = response.result.contexts[0];
+				expect(outputContext.name).toEqual("name_question");
+				expect(outputContext.parameters.my_name).toEqual("Sam");
+				expect(outputContext.parameters.param).toEqual("blabla");
+
+			})
+			.fail(function (error) {
+				expect(false).toBe(true);
+			})
+			.fin(function () {
+				done();
+			});
+		});
+	});
+
+	describe("requestVoice function", function () {
+
+		beforeEach(function (done) {
+			var lang = "en";
+			var subscriptionKey = "cb9693af-85ce-4fbf-844a-5563722fc27f";
+			var accessToken = "3485a96fb27744db83e78b8c4bc9e7b7";
+
+			ApiAIPromises.init({
+				subscriptionKey: subscriptionKey,
+				clientAccessToken: accessToken,
+				lang: lang,
+				baseURL: "https://api.api.ai/api/"
+		    })
+			.then(function () {
+		    	done();
+		    })
+			.fail(function (error) {
+		    	done();
+		    });
+		});
+
+		it("shoud call listeningStrarted", function (done) {
+
+			var called = false;
+			ApiAIPromises.setListeningStartCallback(function () {
+				called = true;
+			});
+
+			ApiAIPromises.requestVoice()
+			.then(function (response) {
+				ApiAIPromises.stopListening();
+			})
+			.fail(function (error) {
+			})
+			.fin(function () {
+				expect(called).toBe(true);
 				done();
 			});
 		});
