@@ -90,6 +90,7 @@ exports.defineAutoTests = function() {
             	done();
             })
 	    	.fail(function (error) {
+	    		console.log(error);
             	done();
             });
 		});	
@@ -107,6 +108,7 @@ exports.defineAutoTests = function() {
 			    done();
 			})
 			.fail(function (error) {
+				console.log(error);
 				expect(false).toBe(true);
 			    done();
 			});
@@ -142,6 +144,7 @@ exports.defineAutoTests = function() {
 				expect(response.result.action).toEqual("secondGreeting");
 			})
 			.fail(function (error) {
+				console.log(error);
 				expect(false).toBe(true);
 			})
 			.fin(function () {
@@ -161,6 +164,7 @@ exports.defineAutoTests = function() {
 				expect(response.result.contexts.some(function(e) { return e.name == "weather"; })).toBe(true);
 			})
 			.fail(function (error) {
+				console.log(error);
 				expect(false).toBe(true);
 			})
 			.fin(function () {
@@ -215,6 +219,7 @@ exports.defineAutoTests = function() {
 		    	done();
 		    })
 			.fail(function (error) {
+				console.log(error);
 		    	done();
 		    });
 		});
@@ -224,16 +229,20 @@ exports.defineAutoTests = function() {
 			var called = false;
 			ApiAIPromises.setListeningStartCallback(function () {
 				called = true;
+				ApiAIPromises.stopListening();
 			});
+
+			console.log("begin");
 
 			ApiAIPromises.requestVoice()
 			.then(function (response) {
-				ApiAIPromises.stopListening();
+				expect(called).toBe(true);
 			})
 			.fail(function (error) {
+				console.log(error);
+				expect(false).toBe(true);
 			})
 			.fin(function () {
-				expect(called).toBe(true);
 				done();
 			});
 		});
