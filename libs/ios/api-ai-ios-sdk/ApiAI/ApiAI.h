@@ -3,7 +3,7 @@
  * API.AI iOS SDK - client-side libraries for API.AI
  * ==========================================
  *
- * Copyright (C) 2014 by Speaktoit, Inc. (https://www.speaktoit.com)
+ * Copyright (C) 2015 by Speaktoit, Inc. (https://www.speaktoit.com)
  * https://www.api.ai
  *
  ***********************************************************************************************************************
@@ -25,6 +25,11 @@
 #import "AIRequest.h"
 #import "AITextRequest.h"
 #import "AIVoiceRequest.h"
+#import "AIDefaultConfiguration.h"
+
+#if __has_include("AIResponse.h")
+    #import "AIResponse.h"
+#endif
 
 /*!
  
