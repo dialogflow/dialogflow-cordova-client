@@ -108,8 +108,7 @@ exports.defineAutoTests = function() {
 			    done();
 			})
 			.fail(function (error) {
-				console.log(error);
-				expect(false).toBe(true);
+				fail(error)
 			    done();
 			});
 		});
@@ -144,8 +143,7 @@ exports.defineAutoTests = function() {
 				expect(response.result.action).toEqual("secondGreeting");
 			})
 			.fail(function (error) {
-				console.log(error);
-				expect(false).toBe(true);
+				fail(error);
 			})
 			.fin(function () {
 				done();
@@ -164,8 +162,7 @@ exports.defineAutoTests = function() {
 				expect(response.result.contexts.some(function(e) { return e.name == "weather"; })).toBe(true);
 			})
 			.fail(function (error) {
-				console.log(error);
-				expect(false).toBe(true);
+				fail(error);
 			})
 			.fin(function () {
 				done();
@@ -194,12 +191,89 @@ exports.defineAutoTests = function() {
 
 			})
 			.fail(function (error) {
-				expect(false).toBe(true);
+				fail(error);
 			})
 			.fin(function () {
 				done();
 			});
 		});
+
+		it("should use custom entities", function (done) {
+			ApiAIPromises.requestText(
+			{
+				query: "hi nori",
+				entities: [
+				  {
+				    name: "dwarfs",
+				    entries: [
+				      {
+				        value: "Ori",
+				        synonyms: [
+				          "ori",
+				          "Nori"
+				        ]
+				      },
+				      {
+				        value: "bifur",
+				        synonyms: [
+				          "Bofur",
+				          "Bombur"
+				        ]
+				      }
+				    ]
+				  }
+				]
+			})
+			.then(function (response) {
+				expect(response.result.action).toEqual("say_hi");
+				expect(response.result.fulfillment.speech).toEqual("hi Bilbo, I am Ori");
+			})
+			.fail(function (error) {
+				fail(error);
+			})
+			.fin(function () {
+				done();
+			});
+		});
+
+		it("should fail if wrong entities specified", function (done) {
+			
+			ApiAIPromises.requestText(
+			{
+				query: "hi Bofur",
+				entities: [
+				  {
+				    name: "not_dwarfs",
+				    entries: [
+				      {
+				        value: "Ori",
+				        synonyms: [
+				          "ori",
+				          "Nori"
+				        ]
+				      },
+				      {
+				        value: "bifur",
+				        synonyms: [
+				          "Bofur",
+				          "Bombur"
+				        ]
+				      }
+				    ]
+				  }
+				]
+			})
+			.then(function (response) {
+				fail("request should fail");
+			})
+			.fail(function (error) {
+				expect(true).toBe(true);
+			})
+			.fin(function () {
+				done();
+			});
+		});
+
 	});
 
 	describe("requestVoice function", function () {
@@ -232,15 +306,13 @@ exports.defineAutoTests = function() {
 				ApiAIPromises.stopListening();
 			});
 
-			console.log("begin");
-
 			ApiAIPromises.requestVoice()
 			.then(function (response) {
 				expect(called).toBe(true);
 			})
 			.fail(function (error) {
-				console.log(error);
-				expect(false).toBe(true);
+				// after stop listening will be thrown "no speech input"
+				expect(called).toBe(true);
 			})
 			.fin(function () {
 				done();
