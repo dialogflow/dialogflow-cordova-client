@@ -7,6 +7,14 @@ Page in Cordova Plugins Registry [http://plugins.cordova.io/#/package/ai.api.api
 Github issues [https://github.com/api-ai/api-ai-cordova/issues](https://github.com/api-ai/api-ai-cordova/issues)  
 Demo application sources [https://github.com/api-ai/api-ai-cordova-sample](https://github.com/api-ai/api-ai-cordova-sample)  
 
+* [Installation](#installation)
+* [Usage](#usage)
+* [API](#api)
+    - [Request Options](#request-options)
+* [Supported Languages](#supported-languages)
+* [Promise-Based Wrapper](#promise-based-wrapper)
+
+
 # Installation
 * Make sure that [Cordova CLI](http://cordova.apache.org/docs/en/4.0.0/guide_cli_index.md.html) is installed
 * Install api.ai plugin with Cordova CLI:
@@ -153,8 +161,45 @@ ApiAIPlugin.setListeningStartCallback(callback)
 // Set callback for listening finished callback
 //  callback - Function - must be simple function without arguments: function () {}
 ApiAIPlugin.setListeningFinishCallback(callback)
-
 ```
+
+## Request Options
+The `options` parameter may contains following fields:
+* `query` - text query, only appliable to `requestText` function
+* `contexts` - list of strings, input context for the request (See [Contexts Quick Start](http://api.ai/docs/getting-started/quick-start-contexts.html) for more information about Contexts)
+    ```javascript
+    contexts: [ "weather", "home" ]
+    ```
+
+* `resetContexts` - boolean flag, set it to true to reset current active contexts
+    ```javascript
+    resetContexts: true
+    ```
+
+* `entities` - array of entities that replace developer defined entities for this request only. The entity(ies) need to exist in the developer console. Each entity is the pair of name and `entries` array. Entries array contains one or more items with `value` and `synonyms` fields.
+    ```javascript
+    entities: [
+      {
+        name: "dwarfs",
+        entries: [
+          {
+            value: "Ori",
+            synonyms: [
+              "Ori",
+              "Nori"
+            ]
+          },
+          {
+            value: "bifur",
+            synonyms: [
+              "Bofur",
+              "Bombur"
+            ]
+          }
+        ]
+      }
+    ]
+    ```
 
 # Supported Languages
 * en
@@ -171,3 +216,23 @@ ApiAIPlugin.setListeningFinishCallback(callback)
 * zh-CN
 * zh-HK
 * zh-TW
+
+# Promise-Based Wrapper
+The promise-based wrapper was added for ease of use and better interoperability with other JavaScript code. Wrapper implemented using the [Q](https://github.com/kriskowal/q) library. You can use the wrapper through `ApiAIPromises` module. For example:
+```javascript
+ApiAIPromises.requestText(
+{
+    query: "Hello"
+})
+.then(function (response) {
+    // some response processing
+    console.log(response.result.action);
+})
+.fail(function (error) {
+    // some error processing
+    console.log(error);
+});
+```
+
+More samples you can find in the [tests](https://github.com/api-ai/api-ai-cordova/blob/master/tests/tests.js) module.
+
