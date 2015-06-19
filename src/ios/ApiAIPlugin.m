@@ -110,6 +110,10 @@
         textRequest.resetContexts = [options[@"resetContexts"] boolValue];
     }
     
+    if (options[@"entities"]) {
+        textRequest.entities = [self userEntitiesFromArray:options[@"entities"]];
+    }
+    
     [textRequest setCompletionBlockSuccess:^(AIRequest *request, id response) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
         [self.commandDelegate sendPluginResult:result
@@ -144,6 +148,10 @@
     
     if (options[@"useVAD"]) {
         voiceRequest.useVADForAutoCommit = [options[@"useVAD"] boolValue];
+    }
+    
+    if (options[@"entities"]) {
+        voiceRequest.entities = [self userEntitiesFromArray:options[@"entities"]];
     }
     
     [voiceRequest setCompletionBlockSuccess:^(AIRequest *request, id response) {
@@ -192,6 +200,28 @@
     self.lastVoiceRequest = voiceRequest;
     
     [_api enqueue:voiceRequest];
+}
+
+- (NSArray *)userEntitiesFromArray:(NSArray *)entities
+{
+    NSMutableArray *userEntities = [NSMutableArray array];
+    
+    [entities enumerateObjectsUsingBlock:^(NSDictionary *objEntity, NSUInteger idx, BOOL *stop) {
+        NSMutableArray *entries = [NSMutableArray array];
+        
+        [objEntity[@"entries"] enumerateObjectsUsingBlock:^(NSDictionary *objEntry, NSUInteger idx, BOOL *stop) {
+            AIRequestEntry *entry = [[AIRequestEntry alloc] initWithValue:objEntry[@"value"]
+                                                              andSynonims:objEntry[@"synonyms"]];
+            [entries addObject:entry];
+        }];
+        
+        AIRequestEntity *entity = [[AIRequestEntity alloc] initWithName:objEntity[@"name"]
+                                                             andEntries:entries];
+        
+        [userEntities addObject:entity];
+    }];
+    
+    return userEntities;
 }
 
 - (void)listeningStartCallback:(CDVInvokedUrlCommand*)command
