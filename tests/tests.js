@@ -69,7 +69,7 @@ exports.defineAutoTests = function() {
 
 	});
 
-	describe('requestText function', function () {
+	xdescribe('requestText function', function () {
 
 		var lang;
 		var subscriptionKey;
@@ -276,7 +276,7 @@ exports.defineAutoTests = function() {
 
 	});
 
-	describe("requestVoice function", function () {
+	xdescribe("requestVoice function", function () {
 
 		beforeEach(function (done) {
 			var lang = "en";
