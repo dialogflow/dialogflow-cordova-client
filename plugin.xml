@@ -44,7 +44,7 @@
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIDefaultConfiguration.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntity.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntry.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/NullabilityDefines.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
 
         <!-- support header and source file -->
 
