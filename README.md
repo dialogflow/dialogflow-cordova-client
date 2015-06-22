@@ -1,5 +1,8 @@
 api-ai-cordova
 ==============
+
+[![Build Status](https://travis-ci.org/api-ai/api-ai-cordova.svg)](https://travis-ci.org/api-ai/api-ai-cordova)
+
 Plugin makes it easy to integrate your Cordova application with [api.ai](http://api.ai) natural language processing service. This plugin supports Android and iOS mobile operation systems.
 
 Project on Github [https://github.com/api-ai/api-ai-cordova](https://github.com/api-ai/api-ai-cordova)  
