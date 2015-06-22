@@ -69,7 +69,7 @@ exports.defineAutoTests = function() {
 
 	});
 
-	xdescribe('requestText function', function () {
+	describe('requestText function', function () {
 
 		var lang;
 		var subscriptionKey;
