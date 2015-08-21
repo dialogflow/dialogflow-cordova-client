@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="ai.api.apiaiplugin"
-        version="1.3.1">
+        version="1.3.2">
     
     <name>ApiAISDKPlugin</name>
     
@@ -36,20 +36,20 @@
         
         <!-- public header and source file -->
 
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/ApiAI.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;"/>
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequest.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AITextRequest.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIVoiceRequest.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIConfiguration.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />        
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIDefaultConfiguration.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntity.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntry.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/NullabilityDefines.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/ApiAI.h" compiler-flags="-std=gnu99 -fmodules"/>
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequest.h" compiler-flags="-std=gnu99 -fmodules" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AITextRequest.h" compiler-flags="-std=gnu99 -fmodules" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIVoiceRequest.h" compiler-flags="-std=gnu99 -fmodules" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIConfiguration.h" compiler-flags="-std=gnu99 -fmodules" />        
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIDefaultConfiguration.h" compiler-flags="-std=gnu99 -fmodules" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntity.h" compiler-flags="-std=gnu99 -fmodules" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntry.h" compiler-flags="-std=gnu99 -fmodules" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/NullabilityDefines.h" compiler-flags="-std=gnu99 -fmodules" />
 
         <!-- support header and source file -->
 
-        <header-file src="src/ios/ApiAIPlugin.h" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
-        <source-file src="src/ios/ApiAIPlugin.m" compiler-flags="&quot;-std=gnu99 -fmodules&quot;" />
+        <header-file src="src/ios/ApiAIPlugin.h" compiler-flags="-std=gnu99 -fmodules" />
+        <source-file src="src/ios/ApiAIPlugin.m" compiler-flags="-std=gnu99 -fmodules" />
 
         <source-file src="libs/ios/api-ai-ios-sdk/libApiAI.a" framework="true" />
         
