@@ -276,7 +276,7 @@ exports.defineAutoTests = function() {
 
 	});
 
-	describe("requestVoice function", function () {
+	xdescribe("requestVoice function", function () {
 
 		beforeEach(function (done) {
 			var lang = "en";
