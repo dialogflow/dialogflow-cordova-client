@@ -10,14 +10,14 @@
 
 #import "AIRequestEntry.h"
 
-#import "NullabilityDefines.h"
+#import "AINullabilityDefines.h"
 
 @interface AIRequestEntity : NSObject
 
-@property(nonatomic, copy, readonly, nonnull) NSString *name;
-@property(nonatomic, copy, readonly, nonnull) NSArray *entries;
+@property(nonatomic, copy, readonly, AI_NONNULL) NSString *name;
+@property(nonatomic, copy, readonly, AI_NONNULL) NSArray AI_GENERICS_1(AIRequestEntry *) *entries;
 
-- (nonnull instancetype)initWithName:(NSString * __nonnull)name
-                          andEntries:(NSArray * __nonnull)entries;
+- (AI_NONNULL instancetype)initWithName:(NSString * __AI_NONNULL)name
+                             andEntries:(NSArray AI_GENERICS_1(AIRequestEntry *) * __AI_NONNULL)entries;
 
 @end

@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="ai.api.apiaiplugin"
-        version="1.4.2">
+        version="1.4.3">
     
     <name>ApiAISDKPlugin</name>
     
@@ -44,7 +44,8 @@
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIDefaultConfiguration.h" compiler-flags="-std=gnu99 -fmodules" />
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntity.h" compiler-flags="-std=gnu99 -fmodules" />
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntry.h" compiler-flags="-std=gnu99 -fmodules" />
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/NullabilityDefines.h" compiler-flags="-std=gnu99 -fmodules" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AINullabilityDefines.h" compiler-flags="-std=gnu99 -fmodules" />
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestContext.h" compiler-flags="-std=gnu99 -fmodules" />
 
         <!-- support header and source file -->
 
