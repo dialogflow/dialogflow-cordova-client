@@ -32,7 +32,7 @@ exports.defineAutoTests = function() {
 			                         subscriptionKey: "cb9693af-85ce-4fbf-844a-5563722fc27f",
  			                         clientAccessToken: "3485a96fb27744db83e78b8c4bc9e7b7",
  			                         lang: "en",
-			                         baseURL: "https://api.api.ai/api/",
+			                         baseURL: "https://api.api.ai/v1/",
 			                         version: "20150204"
 		                         },
 		                         function () {
@@ -52,7 +52,7 @@ exports.defineAutoTests = function() {
 		                         subscriptionKey: "cb9693af-85ce-4fbf-844a-5563722fc27f",
 		                         clientAccessToken: "3485a96fb27744db83e78b8c4bc9e7b7",
 		                         lang: "en",
-		                         baseURL: "https://api.api.ai/api/"
+		                         baseURL: "https://api.api.ai/v1/"
 	                         },
 	                         function () {
                             	initSuccess = true;
@@ -84,7 +84,7 @@ exports.defineAutoTests = function() {
 				subscriptionKey: subscriptionKey,
 				clientAccessToken: accessToken,
 				lang: lang,
-				baseURL: "https://api.api.ai/api/"
+				baseURL: "https://api.api.ai/v1/"
             })
 	    	.then(function () {
             	done();
@@ -117,7 +117,8 @@ exports.defineAutoTests = function() {
 			
 			ApiAIPromises.requestText(
 			{
-				query: "Hello"
+				query: "Hello",
+				resetContexts: true
 			})
 			.then(function (response) {
 				expect(response.result.action).toEqual("greeting");
@@ -137,7 +138,7 @@ exports.defineAutoTests = function() {
 					query: "Hello",
 					contexts: [ "secondContext" ],
 					resetContexts: true
-				});
+				}); 
 			})
 			.then(function (response) {
 				expect(response.result.action).toEqual("secondGreeting");
@@ -173,7 +174,8 @@ exports.defineAutoTests = function() {
 
 			ApiAIPromises.requestText(
 			{
-				query: "what is your name"
+				query: "what is your name",
+				resetContexts: true
 			})
 			.then(function (response) {
 				expect(response.result.parameters).toBeDefined();
@@ -287,7 +289,7 @@ exports.defineAutoTests = function() {
 				subscriptionKey: subscriptionKey,
 				clientAccessToken: accessToken,
 				lang: lang,
-				baseURL: "https://api.api.ai/api/"
+				baseURL: "https://api.api.ai/v1/"
 		    })
 			.then(function () {
 		    	done();

@@ -1,0 +1,21 @@
+{
+    "version": "1.4.3",
+    "name": "ai.api.apiaiplugin",
+    "cordova_name": "ApiAISDKPlugin",
+    "description": "Plugin makes it easy to integrate your Cordova application with http://api.ai natural language processing service.",
+    "license": "Apache 2.0 License",
+    "keywords": [
+        "language processing",
+        "voice recognition"
+    ],
+    "platforms": [
+        "ios",
+        "android"
+    ],
+    "engines": [
+        {
+            "name": "cordova",
+            "version": ">=3.0.0"
+        }
+    ]
+}
