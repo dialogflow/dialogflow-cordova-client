@@ -19,27 +19,28 @@
  *
  ***********************************************************************************************************************/
 
-var cordova = require('cordova'),
-exec = require('cordova/exec');
+"use strict";
 
-var ApiAIPlugin = function() {
-        this.options = {};
+var cordova = require('cordova');
+
+var ApiAIPluginProto = function() {
+
 };
 
-ApiAIPlugin.prototype = {
+ApiAIPluginProto.prototype = {
     init: function(options, success, error) {
 
         if (!options) {
             throw new Error("options must not be null");
-        };
+        }
 
         if (!options.subscriptionKey) {
             throw new Error("subscriptionKey must not be empty");
-        };
+        }
 
         if (!options.clientAccessToken) {
             throw new Error("clientAccessToken must not be empty");
-        };
+        }
 
         if (!options.baseURL){
             options.baseURL = "https://api.api.ai/v1/";
@@ -65,7 +66,7 @@ ApiAIPlugin.prototype = {
 
         if (!options) {
             throw new Error("options must not be null");
-        };
+        }
 
         success = success || null;
         error = error || null;
@@ -133,5 +134,5 @@ ApiAIPlugin.prototype = {
 };
 
 
-var ApiAIPlugin = new ApiAIPlugin();
+var ApiAIPlugin = new ApiAIPluginProto();
 module.exports = ApiAIPlugin;
