@@ -33,3 +33,5 @@ Podfile.lock
 *.xcworkspace
 Pods
 !Assistant.xcodeproj/xcshareddata/xcschemes/Assistant.xcscheme
+.idea
+*.iml
