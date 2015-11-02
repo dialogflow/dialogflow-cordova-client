@@ -169,9 +169,14 @@ ApiAIPlugin.setListeningFinishCallback(callback)
 ## Request Options
 The `options` parameter may contains following fields:
 * `query` - text query, only appliable to `requestText` function
-* `contexts` - list of strings, input context for the request (See [Contexts Quick Start](http://api.ai/docs/getting-started/quick-start-contexts.html) for more information about Contexts)
+* `contexts` - list of strings or objects, input context for the request (See [Contexts Quick Start](http://api.ai/docs/getting-started/quick-start-contexts.html) for more information about Contexts)
+    strings:
     ```javascript
     contexts: [ "weather", "home" ]
+    ```
+    objects:
+    ```javascript
+    contexts: [ { name: "weather", parameters: { location: "London" } }, { name: "home"} ]
     ```
 
 * `resetContexts` - boolean flag, set it to true to reset current active contexts
@@ -203,6 +208,18 @@ The `options` parameter may contains following fields:
       }
     ]
     ```
+* `context` also may have `lifespan` property - integer number defining number of requests the context will influence
+    ```javascript
+    {
+        name: "weather",
+        lifespan: 2,
+        parameters: {
+            location: "London"
+        }
+    }
+    ```
+
+For many samples see [tests](https://github.com/api-ai/api-ai-cordova/blob/master/tests/tests.js)
 
 # Supported Languages
 * en
