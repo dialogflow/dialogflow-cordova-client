@@ -10,6 +10,7 @@
 #import "ApiAI.h"
 #import "AITextRequest.h"
 #import "AIVoiceRequest.h"
+#import "AINullabilityDefines.h"
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -98,7 +99,7 @@
         
         NSMutableArray *requestContexts = [NSMutableArray array];
         
-        [contexts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [contexts enumerateObjectsUsingBlock:^(id  __AI_NONNULL obj, NSUInteger idx, BOOL * __AI_NONNULL stop) {
             
             if ([obj isKindOfClass:[NSString class]]) {
                 AIRequestContext *context = [[AIRequestContext alloc] initWithName:obj
