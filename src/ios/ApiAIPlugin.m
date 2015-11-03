@@ -90,9 +90,38 @@
                                 callbackId:command.callbackId];
 }
 
+- (NSArray *)mapContextsFromOptions:(NSDictionary *)options
+{
+    NSArray *contexts = options[@"contexts"];
+    
+    if (contexts && [contexts count] > 0) {
+        
+        NSMutableArray *requestContexts = [NSMutableArray array];
+        
+        [contexts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if ([obj isKindOfClass:[NSString class]]) {
+                AIRequestContext *context = [[AIRequestContext alloc] initWithName:obj
+                                                                       andLifespan:nil
+                                                                     andParameters:nil];
+                [requestContexts addObject:context];
+            } else {
+                AIRequestContext *context = [[AIRequestContext alloc] initWithName:obj[@"name"]
+                                                                       andLifespan:obj[@"lifespan"]
+                                                                     andParameters:obj[@"parameters"]];
+                [requestContexts addObject:context];
+            }
+        }];
+        
+        return [requestContexts copy];
+    }
+    
+    return @[];
+}
+
 - (void)requestText:(CDVInvokedUrlCommand*)command
 {
-    AITextRequest *textRequest = (AITextRequest *)[_api requestWithType:AIRequestTypeText];
+    AITextRequest *textRequest = [_api textRequest];
     
     NSDictionary *options = [command.arguments lastObject];
     
@@ -102,9 +131,7 @@
         textRequest.lang = options[@"lang"];
     }
     
-    if (options[@"contexts"]) {
-        textRequest.contexts = options[@"contexts"];
-    }
+    textRequest.requestContexts = [self mapContextsFromOptions:options];
     
     if (options[@"resetContexts"]) {
         textRequest.resetContexts = [options[@"resetContexts"] boolValue];
@@ -130,7 +157,7 @@
 
 - (void)requestVoice:(CDVInvokedUrlCommand*)command
 {
-    AIVoiceRequest *voiceRequest = (AIVoiceRequest *)[_api requestWithType:AIRequestTypeVoice];
+    AIVoiceRequest *voiceRequest = [_api voiceRequest];
     
     NSDictionary *options = [command.arguments lastObject];
     
@@ -138,9 +165,7 @@
         voiceRequest.lang = options[@"lang"];
     }
     
-    if (options[@"contexts"]) {
-        voiceRequest.contexts = options[@"contexts"];
-    }
+    voiceRequest.requestContexts = [self mapContextsFromOptions:options];
     
     if (options[@"resetContexts"]) {
         voiceRequest.resetContexts = [options[@"resetContexts"] boolValue];
