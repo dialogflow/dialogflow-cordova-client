@@ -1,5 +1,5 @@
 {
-    "version": "1.4.3",
+    "version": "1.5.0",
     "name": "ai.api.apiaiplugin",
     "cordova_name": "ApiAISDKPlugin",
     "description": "Plugin makes it easy to integrate your Cordova application with http://api.ai natural language processing service.",
