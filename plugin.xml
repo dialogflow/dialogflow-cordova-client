@@ -1,11 +1,11 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="ai.api.apiaiplugin"
         version="1.4.3">
-    
+
     <name>ApiAISDKPlugin</name>
-    
+
     <description>Plugin makes it easy to integrate your Cordova application with http://api.ai natural language processing service.</description>
     <author>api.ai</author>
     <keywords>language processing,voice recognition</keywords>
@@ -14,33 +14,33 @@
     <engines>
         <engine name="cordova" version=">=3.0.0" />
     </engines>
-    
+
     <js-module name="Q" src="www/lib/q.js">
         <runs/>
     </js-module>
-    
+
     <js-module name="ApiAIPlugin" src="www/ApiAIPlugin.js">
         <clobbers target="window.ApiAIPlugin" />
     </js-module>
-    
+
     <js-module name="ApiAIPromises" src="www/ApiAIPromises.js">
         <clobbers target="window.ApiAIPromises" />
     </js-module>
-    
+
     <platform name="ios">
         <config-file parent="/*" target="config.xml">
             <feature name="ApiAIPlugin">
                 <param name="ios-package" value="ApiAIPlugin" />
             </feature>
         </config-file>
-        
+
         <!-- public header and source file -->
 
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/ApiAI.h" compiler-flags="-std=gnu99 -fmodules"/>
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequest.h" compiler-flags="-std=gnu99 -fmodules" />
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AITextRequest.h" compiler-flags="-std=gnu99 -fmodules" />
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIVoiceRequest.h" compiler-flags="-std=gnu99 -fmodules" />
-        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIConfiguration.h" compiler-flags="-std=gnu99 -fmodules" />        
+        <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIConfiguration.h" compiler-flags="-std=gnu99 -fmodules" />
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIDefaultConfiguration.h" compiler-flags="-std=gnu99 -fmodules" />
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntity.h" compiler-flags="-std=gnu99 -fmodules" />
         <header-file src="libs/ios/api-ai-ios-sdk/ApiAI/AIRequestEntry.h" compiler-flags="-std=gnu99 -fmodules" />
@@ -53,14 +53,14 @@
         <source-file src="src/ios/ApiAIPlugin.m" compiler-flags="-std=gnu99 -fmodules" />
 
         <source-file src="libs/ios/api-ai-ios-sdk/libApiAI.a" framework="true" />
-        
+
         <framework src="Security.framework" />
         <framework src="Foundation.framework" />
         <framework src="CoreAudio.framework" />
     </platform>
-    
+
     <!-- Android -->
-    
+
     <platform name="android">
         <config-file target="config.xml" parent="/*">
             <feature name="ApiAIPlugin">
@@ -80,12 +80,12 @@
             </feature>
         </config-file>
 
-        <dependency id="android.support.v4"/>
+        <framework src="com.android.support:support-v4:23.0.1" />
+        <framework src="com.google.code.gson:gson:2.3" />
+        <framework src="commons-io:commons-io:2.4" />
 
         <source-file src="src/android/ApiAiPlugin.java" target-dir="src/ai/api" />
         <source-file src="libs/ailib.jar" target-dir="libs" />
-        <source-file src="libs/commons-io-2.4.jar" target-dir="libs" />
-        <source-file src="libs/gson-2.3.jar" target-dir="libs" />
     </platform>
-    
+
 </plugin>
