@@ -323,7 +323,8 @@ exports.defineAutoTests = function() {
         it("should support lifespan option", function(done) {
             ApiAIPromises.requestText(
                 {
-                    query: "weather in london"
+                    query: "weather in london",
+					resetContexts: true
                 }
             )
             .then(function(response){
@@ -361,6 +362,7 @@ exports.defineAutoTests = function() {
             ApiAIPromises.requestText(
                 {
                     query: "and for tomorrow",
+					resetContexts: true,
                     contexts: [
                         {
                             name: "weather",
