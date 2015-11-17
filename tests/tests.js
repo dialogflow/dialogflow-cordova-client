@@ -108,7 +108,7 @@ exports.defineAutoTests = function() {
 			    done();
 			})
 			.fail(function (error) {
-				fail(error)
+				fail(error);
 			    done();
 			});
 		});
@@ -275,6 +275,157 @@ exports.defineAutoTests = function() {
 				done();
 			});
 		});
+
+		it("should not fail if empty entities list specified", function (done) {
+			ApiAIPromises.requestText(
+				{
+					query: "hi bofur",
+					entities: []
+				}
+			)
+			.then(function (response) {
+                expect(true).toBe(true);
+
+			})
+			.fail(function(error) {
+                fail("request fail");
+			})
+			.fin(function () {
+				done();
+			});
+		});
+
+        it("should use parameters in input context", function (done) {
+            ApiAIPromises.requestText(
+                {
+                    query: "and for tomorrow",
+                    contexts: [
+                        {
+                            name: "weather",
+                            parameters: {
+                                location: "London"
+                            }
+                        }
+                    ]
+                }
+            )
+            .then(function(response){
+                expect(response.result.fulfillment.speech).toEqual("Weather in London for tomorrow");
+            })
+            .fail(function(error){
+                fail(error);
+            })
+            .fin(function(){
+               done();
+            });
+        });
+
+        it("should support lifespan option", function(done) {
+            ApiAIPromises.requestText(
+                {
+                    query: "weather in london",
+					resetContexts: true
+                }
+            )
+            .then(function(response){
+                expect(response.result.contexts).toBeDefined();
+                expect(response.result.contexts).not.toBe(null);
+
+                var c1 = response.result.contexts.filter(function(c){
+                    return c.name == "weather";
+                })[0];
+                expect(c1).not.toBe(null);
+                expect(c1.lifespan).toEqual(5);
+
+                var c2 = response.result.contexts.filter(function(c){
+                    return c.name == "shortcontext";
+                })[0];
+                expect(c2).not.toBe(null);
+                expect(c2.lifespan).toEqual(2);
+
+                var c3 = response.result.contexts.filter(function(c){
+                    return c.name == "longcontext";
+                })[0];
+                expect(c3).not.toBe(null);
+                expect(c3.lifespan).toEqual(10);
+
+            })
+            .fail(function(error){
+                fail(error);
+            })
+            .fin(function(){
+                done();
+            });
+        });
+
+        it("should support lifespan in input context", function(done) {
+            ApiAIPromises.requestText(
+                {
+                    query: "and for tomorrow",
+					resetContexts: true,
+                    contexts: [
+                        {
+                            name: "weather",
+                            lifespan: 2,
+                            parameters: {
+                                location: "London"
+                            }
+                        }
+                    ]
+                }
+            ).then(function(response){
+
+                expect(response.result.fulfillment.speech).toEqual("Weather in London for tomorrow");
+
+                expect(response.result.contexts).toBeDefined();
+                expect(response.result.contexts).not.toBe(null);
+
+                var c1 = response.result.contexts.filter(function(c) {
+                    return c.name == "weather";
+                })[0];
+                expect(c1).not.toBe(null);
+                expect(c1.lifespan).toEqual(2);
+
+                return ApiAIPromises.requestText({
+                    query: "next request"
+                });
+            })
+            .then(function(response){
+
+                var c1 = response.result.contexts.filter(function(c) {
+                    return c.name == "weather";
+                })[0];
+                expect(c1).not.toBe(null);
+                expect(c1.lifespan).toEqual(1);
+
+                return ApiAIPromises.requestText({
+                    query: "next request"
+                });
+            })
+            .then(function(response){
+                var c1 = response.result.contexts.filter(function(c) {
+                    return c.name == "weather";
+                })[0];
+                expect(c1).not.toBe(null);
+                expect(c1.lifespan).toEqual(0);
+
+                return ApiAIPromises.requestText({
+                    query: "next request"
+                });
+            })
+            .then(function(response) {
+                var results = response.result.contexts.filter(function(c) {
+                    return c.name == "weather";
+                });
+                expect(results.length).toEqual(0);
+            })
+            .fail(function(error){
+                fail(error);
+            })
+            .fin(function(){
+                done();
+            });
+        });
 
 	});
 

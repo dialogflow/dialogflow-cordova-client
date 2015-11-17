@@ -19,18 +19,16 @@
  *
  ***********************************************************************************************************************/
 
-
-var cordova = require('cordova'),
-exec = require('cordova/exec');
+"use strict";
 
 var Q = require('ai.api.apiaiplugin.Q');
 var ApiAIPlugin = require('ai.api.apiaiplugin.ApiAIPlugin');
 
-var ApiAIPromises = function() {
-        this.options = {};
+var ApiAIPromisesProto = function() {
+
 };
 
-ApiAIPromises.prototype = {
+ApiAIPromisesProto.prototype = {
     init: function(options) {
         var deferred = Q.defer();
 
@@ -95,5 +93,5 @@ ApiAIPromises.prototype = {
    }
 };
 
-var ApiAIPromises = new ApiAIPromises();
+var ApiAIPromises = new ApiAIPromisesProto();
 module.exports = ApiAIPromises;

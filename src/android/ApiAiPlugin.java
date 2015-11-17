@@ -40,6 +40,7 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
 
 import ai.api.AIConfiguration;
 import ai.api.AIListener;
@@ -161,14 +162,32 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
     private void fillContextsFromArg(JSONObject argObject, RequestExtras requestExtras) throws JSONException { 
         if (argObject.has("contexts")) {
-            final List<AIContext> contexts = new ArrayList<AIContext>();
             final JSONArray arr = argObject.getJSONArray("contexts");
-            for (int i = 0; i < arr.length(); i++) {
-                final AIContext aiContext = new AIContext(arr.getString(i));
-                contexts.add(aiContext);
+
+            // try parse as objects
+            try {
+                final List<AIContext> contexts = Arrays.asList(gson.fromJson(arr.toString(), AIContext[].class));
+                if (contexts != null && contexts.size() > 0) {
+                    requestExtras.setContexts(contexts);
+                }
+                return;
+            } catch (JsonSyntaxException je){
             }
 
-            requestExtras.setContexts(contexts);
+            // try parse as strings
+            try {
+                final List<String> stringContexts = Arrays.asList(gson.fromJson(arr.toString(), String[].class));
+
+                if (stringContexts != null && stringContexts.size() > 0) {
+                    final List<AIContext> contexts = new ArrayList<AIContext>();
+                    for (String s : stringContexts) {
+                        contexts.add(new AIContext(s));
+                    }
+                    requestExtras.setContexts(contexts);
+                }
+            } catch (JsonSyntaxException je){
+            }
+
         }
     }
 
@@ -178,7 +197,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             Log.d(TAG, "Entities: " + arr.toString());
             final List<Entity> entities = Arrays.asList(gson.fromJson(arr.toString(), Entity[].class));
 
-            if (entities.size() > 0) {
+            if (entities != null && entities.size() > 0) {
                 requestExtras.setEntities(entities);
             }
         }
@@ -192,7 +211,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             final String subscriptionKey = argObject.getString("subscriptionKey"); 
             final String language = argObject.optString("lang", "en");
             final boolean debugMode = argObject.optBoolean("debug", false);
-            final String version = argObject.optString("version", "20150415");
+            final String version = argObject.optString("version", "20150910");
 
             final AIConfiguration.SupportedLanguages lang = AIConfiguration.SupportedLanguages.fromLanguageTag(language);
             final AIConfiguration config = new AIConfiguration(clientAccessToken,
