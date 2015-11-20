@@ -6,7 +6,7 @@ api-ai-cordova
 Plugin makes it easy to integrate your Cordova application with [api.ai](http://api.ai) natural language processing service. This plugin supports Android and iOS mobile operation systems.
 
 Project on Github [https://github.com/api-ai/api-ai-cordova](https://github.com/api-ai/api-ai-cordova)  
-Page in Cordova Plugins Registry [http://plugins.cordova.io/#/package/ai.api.apiaiplugin](http://plugins.cordova.io/#/package/ai.api.apiaiplugin)  
+Page in NPM [https://www.npmjs.com/package/cordova-plugin-apiai](https://www.npmjs.com/package/cordova-plugin-apiai)  
 Github issues [https://github.com/api-ai/api-ai-cordova/issues](https://github.com/api-ai/api-ai-cordova/issues)  
 Demo application sources [https://github.com/api-ai/api-ai-cordova-sample](https://github.com/api-ai/api-ai-cordova-sample)  
 
@@ -19,10 +19,10 @@ Demo application sources [https://github.com/api-ai/api-ai-cordova-sample](https
 
 
 # Installation
-* Make sure that [Cordova CLI](http://cordova.apache.org/docs/en/4.0.0/guide_cli_index.md.html) is installed
+* Make sure that [Cordova CLI](http://cordova.apache.org/#getstarted) is installed
 * Install api.ai plugin with Cordova CLI:
 ```shell
-cordova plugin add ai.api.apiaiplugin
+cordova plugin add cordova-plugin-apiai
 ```
 
 # Usage
