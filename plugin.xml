@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="ai.api.apiaiplugin"
-        version="1.4.3">
+        id="cordova-plugin-apiai"
+        version="1.5.0">
 
-    <name>ApiAISDKPlugin</name>
+    <name>ApiAiSDK</name>
 
-    <description>Plugin makes it easy to integrate your Cordova application with http://api.ai natural language processing service.</description>
+    <description>Plugin makes it easy to integrate your Cordova application with https://api.ai natural language processing service.</description>
     <author>api.ai</author>
     <keywords>language processing,voice recognition</keywords>
     <license>Apache 2.0 License</license>
 
     <engines>
-        <engine name="cordova" version=">=3.0.0" />
+        <engine name="cordova" version=">=5.0.0" />
     </engines>
 
     <js-module name="Q" src="www/lib/q.js">
