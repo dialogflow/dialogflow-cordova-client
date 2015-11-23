@@ -21,8 +21,8 @@
 
 "use strict";
 
-var Q = require('ai.api.apiaiplugin.Q');
-var ApiAIPlugin = require('ai.api.apiaiplugin.ApiAIPlugin');
+var Q = require('cordova-plugin-apiai.Q');
+var ApiAIPlugin = require('cordova-plugin-apiai.ApiAIPlugin');
 
 var ApiAIPromisesProto = function() {
 
