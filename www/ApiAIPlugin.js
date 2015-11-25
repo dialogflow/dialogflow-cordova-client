@@ -107,6 +107,14 @@ ApiAIPluginProto.prototype = {
                        []);
       },
 
+    setPartialResultsCallback: function (callback) {
+        cordova.exec(callback,
+            null,
+            "ApiAIPlugin",
+            "partialResultsCallback",
+            []);
+    },
+
     levelMeterCallback: function (callback) {
         cordova.exec(callback,
                       null,

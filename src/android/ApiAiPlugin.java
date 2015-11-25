@@ -52,6 +52,7 @@ import ai.api.model.AIError;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
 import ai.api.model.Entity;
+import ai.api.services.GoogleRecognitionServiceImpl;
 
 public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
@@ -66,6 +67,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
     private CallbackContext listeningStartCallback;
     private CallbackContext listeningFinishCallback;
     private CallbackContext listeningCanceledCallback;
+    private CallbackContext partialResultsCallback;
 
     private float maxLevel;
     private float minLevel;
@@ -155,6 +157,9 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         } else if (action.equals("listeningFinishCallback")) {
             setListeningFinishCallback(callbackContext);
             return true;
+        } else if (action.equals("partialResultsCallback")) {
+            setPartialResultsCallback(callbackContext);
+            return true;
         }
 
         return false;
@@ -225,6 +230,15 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
             aiService = AIService.getService(this.cordova.getActivity().getApplicationContext(), config);
             aiService.setListener(this);
+
+            if (aiService instanceof GoogleRecognitionServiceImpl) {
+                ((GoogleRecognitionServiceImpl) aiService).setPartialResultsListener(new PartialResultsListener() {
+                    @Override
+                    public void onPartialResults(final List<String> partialResults) {
+                        ApiAiPlugin.this.onPartialResults(partialResults);
+                    }
+                });
+            }
 
             callbackContext.success();
         }
@@ -299,6 +313,10 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
     public void setListeningFinishCallback(final CallbackContext callback){
         listeningFinishCallback = callback;
+    }
+
+    public void setPartialResultsCallback(final CallbackContext callback){
+        partialResultsCallback = callback;
     }
 
     @Override
@@ -422,4 +440,11 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         }
     }
 
+    public void onPartialResults(final List<String> results){
+        if (partialResultsCallback != null){
+            final PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, gson.toJson(results));
+            pluginResult.setKeepCallback(true);
+            partialResultsCallback.sendPluginResult(pluginResult);
+        }
+    }
 }

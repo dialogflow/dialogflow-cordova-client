@@ -164,6 +164,11 @@ ApiAIPlugin.setListeningStartCallback(callback)
 // Set callback for listening finished callback
 //  callback - Function - must be simple function without arguments: function () {}
 ApiAIPlugin.setListeningFinishCallback(callback)
+
+// Set callback for getting partial recognition results (Available only on Android platform!)
+// callback - Function - must be `function(str) { }` with string argument
+// You can get the json array of strings with partial recognition results
+ApiAIPlugin.setPartialResultsCallback(callback)
 ```
 
 ## Request Options
