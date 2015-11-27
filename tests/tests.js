@@ -170,7 +170,7 @@ exports.defineAutoTests = function() {
 			});
 		});
 
-		it("should recieve parameters", function (done) {
+		it("should receive parameters", function (done) {
 
 			ApiAIPromises.requestText(
 			{
@@ -451,7 +451,7 @@ exports.defineAutoTests = function() {
 		    });
 		});
 
-		it("shoud call listeningStrarted", function (done) {
+		it("should call listeningStrarted", function (done) {
 
 			var called = false;
 			ApiAIPromises.setListeningStartCallback(function () {
