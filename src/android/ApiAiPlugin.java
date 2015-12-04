@@ -97,30 +97,32 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         } else if (action.equals("requestText")) {
             JSONObject argObject =  args.getJSONObject(0);
 
-            if (argObject != null) {
-                final RequestExtras requestExtras = new RequestExtras();
-                String query = "";
-
-                if (argObject.has("query")) {
-                    query = argObject.getString("query");
-                }
-                else {
-                    callbackContext.error("Argument query must not be empty");
-                }
-
-                fillContextsFromArg(argObject, requestExtras);
-                fillEntitiesFromArg(argObject, requestExtras);
-
-                if (argObject.has("resetContexts")) {
-                    requestExtras.setResetContexts(argObject.getBoolean("resetContexts"));
-                }
-
-                this.textRequest(query, requestExtras, callbackContext);
-            }
-            else{
+            if (argObject == null) {
                 callbackContext.error("Arguments is empty");
+                return true;
             }
-            
+
+            if (!argObject.has("query")) {
+                callbackContext.error("Argument query must not be empty");
+                return true;
+            }
+
+            final RequestExtras requestExtras = new RequestExtras();
+            final String query = argObject.getString("query");
+
+            fillContextsFromArg(argObject, requestExtras);
+            fillEntitiesFromArg(argObject, requestExtras);
+
+            if (argObject.has("resetContexts")) {
+                requestExtras.setResetContexts(argObject.getBoolean("resetContexts"));
+            }
+
+            this.cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    textRequest(query, requestExtras, callbackContext);
+                }
+            });
+
             return true;
         } else if (action.equals("requestVoice")) {
 
@@ -136,10 +138,18 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
                     requestExtras.setResetContexts(argObject.getBoolean("resetContexts"));
                 }
 
-                this.requestVoice(requestExtras, callbackContext);                
+                this.cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        requestVoice(requestExtras, callbackContext);
+                    }
+                });
             }
             else{
-                this.requestVoice(null, callbackContext);
+                this.cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        requestVoice(null, callbackContext);
+                    }
+                });
             }
 
             return true;
