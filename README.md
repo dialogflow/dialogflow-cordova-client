@@ -32,7 +32,7 @@ ApiAIPlugin.init(
         {
             subscriptionKey: "YOUR_SUBSCRIPTION_KEY", // insert your subscription key here
             clientAccessToken: "YOUR_CLIENT_ACCESS_TOKEN", // insert your client access key here
-            lang: "ru" // set lang tag from list of supported languages
+            lang: "en" // set lang tag from list of supported languages
         }, 
         function(result) { /* success processing */ },
         function(error) { /* error processing */ }
