@@ -2,7 +2,7 @@ package ai.api;
 
 /***********************************************************************************************************************
  *
- * API.AI Cordova Android SDK
+ * API.AI Cordova SDK
  * =================================================
  *
  * Copyright (C) 2015 by Speaktoit, Inc. (https://www.speaktoit.com)
