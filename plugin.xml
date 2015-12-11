@@ -88,4 +88,20 @@
         <source-file src="libs/ailib.jar" target-dir="libs" />
     </platform>
 
+    <platform name="wp8">
+        <config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
+            <Capability Name="ID_CAP_SPEECH_RECOGNITION" />
+            <Capability Name="ID_CAP_MICROPHONE" />
+            <Capability Name="ID_CAP_NETWORKING " />
+        </config-file>
+
+        <framework src="libs/wp8/ApiAiSDK.dll" />
+        <framework src="libs/wp8/Newtonsoft.Json.dll" />
+
+        <source-file src="src/wp8/ApiAIPlugin.cs" target-dir="src" />
+
+    </platform>
+
+
+
 </plugin>
