@@ -23,38 +23,141 @@ using WPCordovaClassLib.Cordova;
 using WPCordovaClassLib.Cordova.Commands;
 using WPCordovaClassLib.Cordova.JSON;
 using Microsoft.Phone.Shell;
+using JSON;
+using System.Collections.Generic;
+using ApiAiSDK;
+using ApiAiSDK.Model;
+
 
 namespace Cordova.Extension.Commands
 {
     public class ApiAIPlugin : BaseCommand
     {
-        public void echo(string options)
+        private AIService aiService;
+
+        public async void init(string options)
         {
-            // all JS callable plugin methods MUST have this signature!
-            // public, returning void, 1 argument that is a string
-
-            string optVal = null;
-
             try
             {
-                optVal = JsonHelper.Deserialize<string[]>(options)[0];
+                var optionsMap = JsonHelper.Deserialize<Dictionary<string,string>>(options);
+
+                var subscriptionKey = optionsMap["subscriptionKey"];
+                var accessToken = optionsMap["clientAccessToken"];
+
+                var config = new AIConfiguration(subscriptionKey,
+                                                 accessToken,
+                                                 SupportedLanguage.English);
+
+                aiService = AIService.CreateService(config);
+
+                aiService.OnResult += aiService_OnResult;
+                aiService.OnError += aiService_OnError;
+
+                await aiService.InitializeAsync();
+
+                DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
             }
-            catch(Exception)
+            catch (Exception e)
             {
-                // simply catch the exception, we handle null values and exceptions together
+                DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, e.Message));
             }
 
-            if (optVal == null)
+        }
+
+        private void aiService_OnError(AIServiceException error)
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                DispatchCommandResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
+                // sample error processing
+
+            });
+        }
+
+        private void aiService_OnResult(ApiAiSDK.Model.AIResponse response)
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                // sample result processing
+
+            });
+        }
+
+        public void requestText(string options)
+        {
+            try
+            {
             }
-            else
+            catch(Exception e)
             {
-                DispatchCommandResult(new PluginResult(PluginResult.Status.OK, "{result:\"some result\"}"));
+                DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, e.Message));
+            }
+
+            var optionsArray = JSON.JsonHelper.Deserialize<string[]>(options);
+
+            PluginResult result;
+
+            result = new PluginResult(PluginResult.Status.OK, upperCase);
+
+            DispatchCommandResult(result);
+        }
+
+        public void requestVoice(string options)
+        {
+            try
+            {
+            }
+            catch(Exception e)
+            {
+                DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, e.Message));
             }
         }
 
+        public void listeningStartCallback(string options)
+        {
+            DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
+        }
 
+        public void listeningFinishCallback(string options)
+        {
+            DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
+        }
+
+        public void partialResultsCallback(string options)
+        {
+            DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
+        }
+
+        public void recognitionResultsCallback(string options)
+        {
+            DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
+        }
+
+        public void levelMeterCallback(string options)
+        {
+            DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
+        }
+
+        public void cancelAllRequests(string options)
+        {
+            try
+            {
+            }
+            catch(Exception e)
+            {
+                DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, e.Message));
+            }
+        }
+
+        public void stopListening(string options)
+        {
+            try
+            {
+            }
+            catch(Exception e)
+            {
+                DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, e.Message));
+            }
+        }
 
         public override void OnPause(object sender, DeactivatedEventArgs e) {
 
