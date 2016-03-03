@@ -42,6 +42,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+
 import ai.api.AIConfiguration;
 import ai.api.AIListener;
 import ai.api.AIService;
@@ -58,8 +61,14 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
     private static final String TAG = ApiAiPlugin.class.getName();
 
+    public static final String RECORD_AUDIO = Manifest.permission.RECORD_AUDIO;
+    public static final int AUDIO_REQ_CODE = 17;
+
     private AIService aiService;
     private Gson gson;
+
+    private String persistedAction;
+    private JSONArray persistedArgs;
 
     private CallbackContext currentCallbacks;
 
@@ -82,6 +91,8 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        Log.i(TAG, action);
+
         if (action.equals("init")) {
 
             final JSONObject argObject =  args.getJSONObject(0);
@@ -126,6 +137,19 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             return true;
         } else if (action.equals("requestVoice")) {
 
+            if(!cordova.hasPermission(RECORD_AUDIO)) {
+
+                Log.i(TAG, "Requesting audio permissions");
+
+                currentCallbacks = callbackContext;
+                persistedAction = action;
+                persistedArgs = args;
+
+                getAudioPermission(AUDIO_REQ_CODE);
+
+                return true;
+            }
+
             JSONObject argObject =  args.getJSONObject(0);
 
             if (argObject != null) {
@@ -144,7 +168,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
                     }
                 });
             }
-            else{
+            else {
                 this.cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
                         requestVoice(null, callbackContext);
@@ -220,6 +244,11 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
                 requestExtras.setEntities(entities);
             }
         }
+    }
+
+    protected void getAudioPermission(final int requestCode)
+    {
+        cordova.requestPermission(this, requestCode, RECORD_AUDIO);
     }
 
     public void init(final JSONObject argObject, CallbackContext callbackContext) {
@@ -380,6 +409,40 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
     public void onDestroy() {
     }
 
+    @Override
+    public void onRequestPermissionResult(int requestCode, String[] permissions,
+                                          int[] grantResults) throws JSONException
+    {
+        if (requestCode == AUDIO_REQ_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                if (persistedAction != null) {
+
+                    final String action = persistedAction;
+                    final JSONArray args = persistedArgs;
+
+                    persistedAction = null;
+                    persistedArgs = null;
+
+                    execute(action, args, currentCallbacks);
+                } else {
+                    if (currentCallbacks != null) {
+                        currentCallbacks.sendPluginResult(new PluginResult(PluginResult.Status.OK, "PERMISSION_OK"));
+                    }
+                }
+            } else {
+                if (currentCallbacks != null) {
+                    currentCallbacks.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, "PERMISSION_DENIED_ERROR"));
+                }
+            }
+        }
+        else {
+            if (currentCallbacks != null) {
+                currentCallbacks.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, "Wrong requestCode for permissions"));
+            }
+        }
+    }
 
     @Override
     public void onResult(final AIResponse response) {
