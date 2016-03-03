@@ -366,7 +366,7 @@ exports.defineAutoTests = function() {
                     contexts: [
                         {
                             name: "weather",
-                            lifespan: 2,
+                            lifespan: 3,
                             parameters: {
                                 location: "London"
                             }
