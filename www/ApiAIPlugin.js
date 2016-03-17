@@ -115,14 +115,6 @@ ApiAIPluginProto.prototype = {
             []);
     },
 
-    setRecognitionResultsCallback: function (callback) {
-        cordova.exec(callback,
-            null,
-            "ApiAIPlugin",
-            "recognitionResultsCallback",
-            []);
-    },
-
     levelMeterCallback: function (callback) {
         cordova.exec(callback,
                       null,
