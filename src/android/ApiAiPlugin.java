@@ -77,7 +77,6 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
     private CallbackContext listeningFinishCallback;
     private CallbackContext listeningCanceledCallback;
     private CallbackContext partialResultsCallback;
-    private CallbackContext recognitionResultsCallback;
 
     private float maxLevel;
     private float minLevel;
@@ -162,14 +161,14 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
                     requestExtras.setResetContexts(argObject.getBoolean("resetContexts"));
                 }
 
-                this.cordova.getThreadPool().execute(new Runnable() {
+                this.cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         requestVoice(requestExtras, callbackContext);
                     }
                 });
             }
             else {
-                this.cordova.getThreadPool().execute(new Runnable() {
+                this.cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         requestVoice(null, callbackContext);
                     }
@@ -178,10 +177,18 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
             return true;
         } else if (action.equals("cancelAllRequests")) {
-            this.cancelAllRequests(callbackContext);
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    cancelAllRequests(callbackContext);
+                }
+            });
             return true;
         } else if (action.equals("stopListening")) {
-            this.stopListening(callbackContext);
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    stopListening(callbackContext);
+                }
+            });
             return true;
         } else if (action.equals("levelMeterCallback")) {
             setLevelMeterCallback(callbackContext);
@@ -196,7 +203,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             setPartialResultsCallback(callbackContext);
             return true;
         } else if (action.equals("recognitionResultsCallback")) {
-            setRecognitionResultsCallback(callbackContext);
+            callbackContext.error("recognitionResultsCallback is deprecated, use partialResultsCallback instead");
             return true;
         }
 
@@ -275,15 +282,10 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
             aiService.setListener(this);
 
             if (aiService instanceof GoogleRecognitionServiceImpl) {
-                ((GoogleRecognitionServiceImpl) aiService).setRecognitionResultsListener(new RecognitionResultsListener() {
+                ((GoogleRecognitionServiceImpl) aiService).setPartialResultsListener(new PartialResultsListener() {
                     @Override
                     public void onPartialResults(final List<String> partialResults) {
                         ApiAiPlugin.this.onPartialResults(partialResults);
-                    }
-
-                    @Override
-                    public void onRecognitionResults(final List<String> recognitionResults) {
-                        ApiAiPlugin.this.onRecognitionResults(recognitionResults);
                     }
                 });
             }
@@ -330,7 +332,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         }
     }
 
-    public void stopListening(CallbackContext callbackContext) {
+    public void stopListening(final CallbackContext callbackContext) {
         try {
             aiService.stopListening();
             callbackContext.success();
@@ -340,7 +342,7 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         }
     }
 
-    public void cancelAllRequests(CallbackContext callbackContext){
+    public void cancelAllRequests(final CallbackContext callbackContext){
         try{
            aiService.cancel();
            callbackContext.success();
@@ -365,10 +367,6 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
 
     public void setPartialResultsCallback(final CallbackContext callback){
         partialResultsCallback = callback;
-    }
-
-    public void setRecognitionResultsCallback(final CallbackContext callback){
-        recognitionResultsCallback = callback;
     }
 
     @Override
@@ -534,11 +532,4 @@ public class ApiAiPlugin extends CordovaPlugin implements AIListener {
         }
     }
 
-    public void onRecognitionResults(final List<String> recognitionResults) {
-        if (recognitionResultsCallback != null && recognitionResults != null) {
-            final PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, gson.toJson(recognitionResults));
-            pluginResult.setKeepCallback(true);
-            recognitionResultsCallback.sendPluginResult(pluginResult);
-        }
-    }
 }
