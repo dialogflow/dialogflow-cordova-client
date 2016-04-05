@@ -34,10 +34,6 @@ ApiAIPluginProto.prototype = {
             throw new Error("options must not be null");
         }
 
-        if (!options.subscriptionKey) {
-            throw new Error("subscriptionKey must not be empty");
-        }
-
         if (!options.clientAccessToken) {
             throw new Error("clientAccessToken must not be empty");
         }
@@ -47,7 +43,7 @@ ApiAIPluginProto.prototype = {
         }
 
         if (!options.version) {
-            options.version = "20150415";
+            options.version = "20150910";
         }
 
         success = success || null;

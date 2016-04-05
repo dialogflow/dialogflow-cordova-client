@@ -30,7 +30,6 @@ Add to your **index.js** file (typically in **js** folder) in function **onDevic
 ```javascript
 ApiAIPlugin.init(
         {
-            subscriptionKey: "YOUR_SUBSCRIPTION_KEY", // insert your subscription key here
             clientAccessToken: "YOUR_CLIENT_ACCESS_TOKEN", // insert your client access key here
             lang: "en" // set lang tag from list of supported languages
         }, 
@@ -127,13 +126,12 @@ ApiAIPlugin.cancelAllRequests();
 ```javascript
 // Initialize plugin
 //  options - JSON object - `{
-//                              subscriptionKey: "your_subscription_key",
 //                              clientAccessToken: "your_access_token",
 //                              lang: "one_of_supported_languages"
 //                           }`
 //  success - Function (optional) - callback for initialization success: function () {}
 //  error - Function (optional) - callback for initialization error: function (error) {}
-ApiAIPlugin.init(clientAccessToken, subscriptionKey, success, error)
+ApiAIPlugin.init(options, success, error)
 
 // Start listening, then make voice request to api.ai service
 //  options - JSON object - voice request options (reserved for future use)

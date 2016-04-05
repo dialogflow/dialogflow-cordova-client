@@ -29,11 +29,8 @@ exports.defineAutoTests = function() {
 		it("should not throw exception", function() {
 			var func = function(){
 		    	ApiAIPlugin.init({
-			                         subscriptionKey: "cb9693af-85ce-4fbf-844a-5563722fc27f",
  			                         clientAccessToken: "3485a96fb27744db83e78b8c4bc9e7b7",
- 			                         lang: "en",
-			                         baseURL: "https://api.api.ai/v1/",
-			                         version: "20150204"
+ 			                         lang: "en"
 		                         },
 		                         function () {
 	                            	
@@ -49,10 +46,8 @@ exports.defineAutoTests = function() {
 	    it("should success", function (done) {
 	    	var initSuccess;
 	    	ApiAIPlugin.init({
-		                         subscriptionKey: "cb9693af-85ce-4fbf-844a-5563722fc27f",
 		                         clientAccessToken: "3485a96fb27744db83e78b8c4bc9e7b7",
-		                         lang: "en",
-		                         baseURL: "https://api.api.ai/v1/"
+		                         lang: "en"
 	                         },
 	                         function () {
                             	initSuccess = true;
@@ -72,19 +67,15 @@ exports.defineAutoTests = function() {
 	describe('requestText function', function () {
 
 		var lang;
-		var subscriptionKey;
 		var accessToken;
 
 		beforeEach(function (done) {
 			lang = "en";
-			subscriptionKey = "cb9693af-85ce-4fbf-844a-5563722fc27f";
 			accessToken = "3485a96fb27744db83e78b8c4bc9e7b7";
 
 	    	ApiAIPromises.init({
-				subscriptionKey: subscriptionKey,
 				clientAccessToken: accessToken,
-				lang: lang,
-				baseURL: "https://api.api.ai/v1/"
+				lang: lang
             })
 	    	.then(function () {
             	done();
@@ -433,14 +424,11 @@ exports.defineAutoTests = function() {
 
 		beforeEach(function (done) {
 			var lang = "en";
-			var subscriptionKey = "cb9693af-85ce-4fbf-844a-5563722fc27f";
 			var accessToken = "3485a96fb27744db83e78b8c4bc9e7b7";
 
 			ApiAIPromises.init({
-				subscriptionKey: subscriptionKey,
 				clientAccessToken: accessToken,
-				lang: lang,
-				baseURL: "https://api.api.ai/v1/"
+				lang: lang
 		    })
 			.then(function () {
 		    	done();
