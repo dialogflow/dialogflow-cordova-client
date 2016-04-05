@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-apiai",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Plugin makes it easy to integrate your Cordova application with https://api.ai natural language processing service.",
   "cordova": {
     "id": "cordova-plugin-apiai",
