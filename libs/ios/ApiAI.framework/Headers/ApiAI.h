@@ -34,9 +34,10 @@
 #if __has_include("AIVoiceRequest.h")
     #import "AIVoiceRequest.h"
 
-    #ifdef TARGET_OS_IOS
+    #if defined(TARGET_OS_IOS) || defined(TARGET_OS_MAC)
         #define AI_SUPPORT_VOICE_REQUEST (TARGET_OS_IOS || TARGET_OS_MAC)
     #else
+        //Enable support voice reuqest for XCode older than 7.x version
         #define AI_SUPPORT_VOICE_REQUEST 1
     #endif
 #else
@@ -44,7 +45,11 @@
 #endif
 
 #if __has_include("AIVoiceFileRequest.h")
-#import "AIVoiceFileRequest.h"
+    #import "AIVoiceFileRequest.h"
+#endif
+
+#if __has_include("AIUserEntitiesRequest.h")
+    #import "AIUserEntitiesRequest.h"
 #endif
 
 /*!
@@ -126,15 +131,19 @@ typedef NS_ENUM(NSUInteger, AIRequestType) {
  @deprecated This method will be remove in future version. Please use :voiceRequest and :textRequest.
  
  */
-- (AIRequest *)requestWithType:(AIRequestType)requestType DEPRECATED_ATTRIBUTE;
 
-//#if __has_include("AIVoiceRequest.h")
+- (AIRequest *)requestWithType:(AIRequestType)requestType DEPRECATED_MSG_ATTRIBUTE("Use :voiceRequest or :textRequest methods");
+
 #if AI_SUPPORT_VOICE_REQUEST
 - (AIVoiceRequest *)voiceRequest;
 #endif
 
 #if __has_include("AITextRequest.h")
 - (AITextRequest *)textRequest;
+#endif
+
+#if __has_include("AIUserEntitiesRequest.h")
+- (AIUserEntitiesRequest *)userEntitiesRequest;
 #endif
 
 
@@ -151,7 +160,7 @@ typedef NS_ENUM(NSUInteger, AIRequestType) {
  @discussion using this method for send request.
  
  */
-- (void)enqueue:(AIRequest *)request;
+- (void)enqueue:(NSOperation<AIRequest> *)request;
 
 /*!
  
