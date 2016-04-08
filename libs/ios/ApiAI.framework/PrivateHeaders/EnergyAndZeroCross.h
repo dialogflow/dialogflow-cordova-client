@@ -19,42 +19,10 @@
  *
  ***********************************************************************************************************************/
 
-#import <Foundation/Foundation.h>
+#import "AIAlgorithmDetector.h"
 
-/*!
- 
- @protocol AIConfiguration
- 
- @discussion Interface for configuration ApiAI SDK.
- 
- */
-@protocol AIConfiguration <NSObject>
+@interface EnergyAndZeroCross : AIAlgorithmDetector
 
-/*!
- 
- @property baseURL
- 
- @discussion API endpoint URL, cannot be NULL.
- 
- */
-@property(nonatomic, copy) NSURL *baseURL;
-
-/*!
- 
- @property clientAccessToken
- 
- @discussion Client Access Token, cannot be NULL. Can get it in http://api.ai/
- 
- */
-@property(nonatomic, copy) NSString *clientAccessToken;
-
-/*!
- 
- @property subscriptionKey
- 
- @discussion Subscription Key, cannot be NULL. Can get it in http://api.ai/
- 
- */
-@property(nonatomic, copy) NSString *subscriptionKey;
+@property(nonatomic, assign) float sampleRate;
 
 @end

@@ -19,17 +19,17 @@
  *
  ***********************************************************************************************************************/
 
-#import "AIRequest.h"
+#import "AIDataService.h"
 
-@interface AITextRequest : AIRequest
+@protocol AIConfiguration;
 
-/*!
- 
- @property query
- 
- @discussion string or array of strings. Required field.
- 
- */
-@property(nonatomic, strong) id query;
+@interface AIDataService ()
+
+@property(nonatomic, copy) NSString *version;
+
+@property(nonatomic, strong) NSURLSession *URLSession;
+@property (nonatomic, copy) NSIndexSet *acceptableStatusCodes;
+
+@property(nonatomic, strong) id <AIConfiguration> configuration;
 
 @end

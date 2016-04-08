@@ -7,10 +7,7 @@
 //
 
 #import "ApiAIPlugin.h"
-#import "ApiAI.h"
-#import "AITextRequest.h"
-#import "AIVoiceRequest.h"
-#import "AINullabilityDefines.h"
+#import <ApiAI/ApiAI.h>
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -65,11 +62,6 @@
     NSString *clientAccessToken = parameters[@"clientAccessToken"];
     if (clientAccessToken) {
         configuration.clientAccessToken = clientAccessToken;
-    }
-    
-    NSString *subscriptionKey = parameters[@"subscriptionKey"];
-    if (subscriptionKey) {
-        configuration.subscriptionKey = subscriptionKey;
     }
     
     NSString *lang = parameters[@"lang"];
