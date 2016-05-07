@@ -30,7 +30,7 @@
 		</data>
 		<key>AIVoiceRequestButton.nib</key>
 		<data>
-		pOhZOHUZg/ncaIucgNsN7rdxQpY=
+		TSEn7xxjMypDB20F9AOnZLQGGlo=
 		</data>
 		<key>Headers/AIConfiguration.h</key>
 		<data>
@@ -46,7 +46,7 @@
 		</data>
 		<key>Headers/AIQueryRequest.h</key>
 		<data>
-		U4qp3pyqYA80XhEp4RUXhYzhWt4=
+		ZAFRezZEoLdir7aBRcFvAksQqrA=
 		</data>
 		<key>Headers/AIRequest+AIMappedResponse.h</key>
 		<data>
@@ -126,11 +126,11 @@
 		</data>
 		<key>Headers/AIVoiceRequestButton.h</key>
 		<data>
-		5/U2bUcylhxDC0JE9xyWTcv89Qk=
+		nu8XdrLbcnhMODEtSspinJuMeOU=
 		</data>
 		<key>Headers/ApiAI.h</key>
 		<data>
-		ZHQUgci+m8ffDsqbF7BdIiWo+D8=
+		YJdjKvUzGgWlfQOqGqlISRmWC4I=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -349,11 +349,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pOhZOHUZg/ncaIucgNsN7rdxQpY=
+			TSEn7xxjMypDB20F9AOnZLQGGlo=
 			</data>
 			<key>hash2</key>
 			<data>
-			E1YceRiTleS9SpNi9HhqDYfG73HmJYlTuq3wsxmSgjs=
+			C+6UnG3vUeeVBSBacMERRXcj3zJRL5RQYvlmxvARry4=
 			</data>
 		</dict>
 		<key>Headers/AIConfiguration.h</key>
@@ -393,11 +393,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			U4qp3pyqYA80XhEp4RUXhYzhWt4=
+			ZAFRezZEoLdir7aBRcFvAksQqrA=
 			</data>
 			<key>hash2</key>
 			<data>
-			ys2vxMdpp+WAPEzdlVl4kvIzvXW56MROXi+BDC9KINc=
+			SiLAQW4Q84MRL/xYXko9h5qQUSML9EkJ+AiOWZezAsc=
 			</data>
 		</dict>
 		<key>Headers/AIRequest+AIMappedResponse.h</key>
@@ -613,22 +613,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			5/U2bUcylhxDC0JE9xyWTcv89Qk=
+			nu8XdrLbcnhMODEtSspinJuMeOU=
 			</data>
 			<key>hash2</key>
 			<data>
-			j5kfyc+4yKclyWzPvsP3tXhpRQvTLuUhRh7U8KmgJx0=
+			NMYB+DyEksG5KJRuy5zxQ8898rC0809+kmUaVuMpmVY=
 			</data>
 		</dict>
 		<key>Headers/ApiAI.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ZHQUgci+m8ffDsqbF7BdIiWo+D8=
+			YJdjKvUzGgWlfQOqGqlISRmWC4I=
 			</data>
 			<key>hash2</key>
 			<data>
-			tjTIwZiuVPGeXof8AlxhCGmTnIL6PaMhFgl63MQUf4E=
+			q6j6Hh9CmbLu7WTEJmF3p3MoFPfPpY2eGpNAZl2GNiw=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
