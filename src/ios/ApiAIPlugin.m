@@ -15,7 +15,6 @@
 
 @property(nonatomic, copy) NSURL *baseURL;
 @property(nonatomic, copy) NSString *clientAccessToken;
-@property(nonatomic, copy) NSString *subscriptionKey;
 
 @end
 
