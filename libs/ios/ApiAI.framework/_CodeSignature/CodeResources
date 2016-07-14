@@ -30,11 +30,11 @@
 		</data>
 		<key>AIVoiceRequestButton.nib</key>
 		<data>
-		TSEn7xxjMypDB20F9AOnZLQGGlo=
+		qxoZgNFz4dgEB8rbWEdfGdavUEQ=
 		</data>
 		<key>Headers/AIConfiguration.h</key>
 		<data>
-		MJRt7v8ShxJkty2p55FiZ0jK5XI=
+		xizGCw3JD1z03aq1RiqRzh2wx7Q=
 		</data>
 		<key>Headers/AIDefaultConfiguration.h</key>
 		<data>
@@ -94,7 +94,7 @@
 		</data>
 		<key>Headers/AIResponseResult.h</key>
 		<data>
-		x9PrkKvWp68iEjtYNb/+C8I3sGU=
+		uaRIh4w/ZGfbfAFDH4vWlV/m2aY=
 		</data>
 		<key>Headers/AIResponseStatus.h</key>
 		<data>
@@ -134,7 +134,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		wmwLWA1vYA+Ma3PldI6izbTMbFA=
+		urdO3mGgUN0GjFwp6O5ZMp9fU3c=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -349,22 +349,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TSEn7xxjMypDB20F9AOnZLQGGlo=
+			qxoZgNFz4dgEB8rbWEdfGdavUEQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			C+6UnG3vUeeVBSBacMERRXcj3zJRL5RQYvlmxvARry4=
+			c4dZSBU+r300yIVSplxmrpfUhCSnzRv9KKQ9bbhXdVQ=
 			</data>
 		</dict>
 		<key>Headers/AIConfiguration.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			MJRt7v8ShxJkty2p55FiZ0jK5XI=
+			xizGCw3JD1z03aq1RiqRzh2wx7Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			KkTp1O9izwAHXdLRZtQ02dzrHixnz3pi6SE9ocp4JNI=
+			3iK3EpyJCqYWxmMxwupBLHLG4YUq6I8/CtENTEEAbpc=
 			</data>
 		</dict>
 		<key>Headers/AIDefaultConfiguration.h</key>
@@ -525,11 +525,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			x9PrkKvWp68iEjtYNb/+C8I3sGU=
+			uaRIh4w/ZGfbfAFDH4vWlV/m2aY=
 			</data>
 			<key>hash2</key>
 			<data>
-			LoDhoto77qsVLy4u/WwtATTgw6Oy8gBTicLDdSmrZbA=
+			CqSDiC6klBpWCJ//+axW5+lbiJBaXQbDb1Y75IcmcTU=
 			</data>
 		</dict>
 		<key>Headers/AIResponseStatus.h</key>
