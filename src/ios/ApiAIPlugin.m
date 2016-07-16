@@ -40,46 +40,48 @@
 
 - (void)init:(CDVInvokedUrlCommand*)command
 {
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord
-                                     withOptions:AVAudioSessionCategoryOptionAllowBluetooth | AVAudioSessionCategoryOptionDefaultToSpeaker
-                                           error:nil];
-    [[AVAudioSession sharedInstance] setActive:YES
-                                   withOptions:AVAudioSessionCategoryOptionAllowBluetooth | AVAudioSessionCategoryOptionDefaultToSpeaker
-                                         error:nil];
-    
-    ApiAI *api = [[ApiAI alloc] init];
-    
-    id <AIConfiguration> configuration = [[CustomConfiguration alloc] init];
-    
-    NSDictionary *parameters = [command.arguments firstObject];
-    
-    NSString *baseURL = parameters[@"baseURL"];
-    if (baseURL) {
-        configuration.baseURL = [NSURL URLWithString:baseURL];
-    }
-    
-    NSString *clientAccessToken = parameters[@"clientAccessToken"];
-    if (clientAccessToken) {
-        configuration.clientAccessToken = clientAccessToken;
-    }
-    
-    NSString *lang = parameters[@"lang"];
-    if (lang) {
-        api.lang = lang;
-    }
-    
-    NSString *version = parameters[@"version"];
-    if (version && [version length]) {
-        api.version = version;
-    }
-    
-    api.configuration = configuration;
-    
-    self.api = api;
-    
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:result
-                                callbackId:command.callbackId];
+    [self.commandDelegate runInBackground:^{
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord
+                                         withOptions:AVAudioSessionCategoryOptionAllowBluetooth | AVAudioSessionCategoryOptionDefaultToSpeaker
+                                               error:nil];
+        [[AVAudioSession sharedInstance] setActive:YES
+                                       withOptions:AVAudioSessionCategoryOptionAllowBluetooth | AVAudioSessionCategoryOptionDefaultToSpeaker
+                                             error:nil];
+        
+        ApiAI *api = [[ApiAI alloc] init];
+        
+        id <AIConfiguration> configuration = [[CustomConfiguration alloc] init];
+        
+        NSDictionary *parameters = [command.arguments firstObject];
+        
+        NSString *baseURL = parameters[@"baseURL"];
+        if (baseURL) {
+            configuration.baseURL = [NSURL URLWithString:baseURL];
+        }
+        
+        NSString *clientAccessToken = parameters[@"clientAccessToken"];
+        if (clientAccessToken) {
+            configuration.clientAccessToken = clientAccessToken;
+        }
+        
+        NSString *lang = parameters[@"lang"];
+        if (lang) {
+            api.lang = lang;
+        }
+        
+        NSString *version = parameters[@"version"];
+        if (version && [version length]) {
+            api.version = version;
+        }
+        
+        api.configuration = configuration;
+        
+        self.api = api;
+        
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:result
+                                    callbackId:command.callbackId];
+    }];
 }
 
 - (NSArray *)mapContextsFromOptions:(NSDictionary *)options
@@ -113,110 +115,119 @@
 
 - (void)requestText:(CDVInvokedUrlCommand*)command
 {
-    AITextRequest *textRequest = [_api textRequest];
-    
-    NSDictionary *options = [command.arguments lastObject];
-    
-    textRequest.query = options[@"query"];
-    
-    if (options[@"lang"]) {
-        textRequest.lang = options[@"lang"];
-    }
-    
-    textRequest.requestContexts = [self mapContextsFromOptions:options];
-    
-    if (options[@"resetContexts"]) {
-        textRequest.resetContexts = [options[@"resetContexts"] boolValue];
-    }
-    
-    if (options[@"entities"]) {
-        textRequest.entities = [self userEntitiesFromArray:options[@"entities"]];
-    }
-    
-    [textRequest setCompletionBlockSuccess:^(AIRequest *request, id response) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
-        [self.commandDelegate sendPluginResult:result
-                                    callbackId:command.callbackId];
-    } failure:^(AIRequest *request, NSError *error) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                    messageAsString:[error localizedDescription]];
-        [self.commandDelegate sendPluginResult:result
-                                    callbackId:command.callbackId];
+    [self.commandDelegate runInBackground:^{
+        AITextRequest *textRequest = [_api textRequest];
+        
+        NSDictionary *options = [command.arguments lastObject];
+        
+        textRequest.query = options[@"query"];
+        
+        if (options[@"lang"]) {
+            textRequest.lang = options[@"lang"];
+        }
+        
+        textRequest.requestContexts = [self mapContextsFromOptions:options];
+        
+        if (options[@"resetContexts"]) {
+            textRequest.resetContexts = [options[@"resetContexts"] boolValue];
+        }
+        
+        if (options[@"entities"]) {
+            textRequest.entities = [self userEntitiesFromArray:options[@"entities"]];
+        }
+        
+        [textRequest setCompletionBlockSuccess:^(AIRequest *request, id response) {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+            [self.commandDelegate sendPluginResult:result
+                                        callbackId:command.callbackId];
+        } failure:^(AIRequest *request, NSError *error) {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                        messageAsString:[error localizedDescription]];
+            [self.commandDelegate sendPluginResult:result
+                                        callbackId:command.callbackId];
+        }];
+        
+        [_api enqueue:textRequest];
     }];
-    
-    [_api enqueue:textRequest];
+}
+
+- (void)partialResultsCallback:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"WARNING: setPartialResultsCallback method not implemented for iOS. Ignoring...");
 }
 
 - (void)requestVoice:(CDVInvokedUrlCommand*)command
 {
-    AIVoiceRequest *voiceRequest = [_api voiceRequest];
-    
-    NSDictionary *options = [command.arguments lastObject];
-    
-    if (options[@"lang"]) {
-        voiceRequest.lang = options[@"lang"];
-    }
-    
-    voiceRequest.requestContexts = [self mapContextsFromOptions:options];
-    
-    if (options[@"resetContexts"]) {
-        voiceRequest.resetContexts = [options[@"resetContexts"] boolValue];
-    }
-    
-    if (options[@"useVAD"]) {
-        voiceRequest.useVADForAutoCommit = [options[@"useVAD"] boolValue];
-    }
-    
-    if (options[@"entities"]) {
-        voiceRequest.entities = [self userEntitiesFromArray:options[@"entities"]];
-    }
-    
-    [voiceRequest setCompletionBlockSuccess:^(AIRequest *request, id response) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
-        self.lastVoiceRequest = nil;
+    [self.commandDelegate runInBackground:^{
+        AIVoiceRequest *voiceRequest = [_api voiceRequest];
         
-        [self.commandDelegate sendPluginResult:result
-                                    callbackId:command.callbackId];
-    } failure:^(AIRequest *request, NSError *error) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                    messageAsString:[error localizedDescription]];
-        self.lastVoiceRequest = nil;
+        NSDictionary *options = [command.arguments lastObject];
         
-        [self.commandDelegate sendPluginResult:result
-                                    callbackId:command.callbackId];
+        if (options[@"lang"]) {
+            voiceRequest.lang = options[@"lang"];
+        }
         
-    }];
-    
-    [voiceRequest setSoundRecordBeginBlock:^(AIRequest *request){
-        if (self.listeningStartCallback) {
-            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-            result.keepCallback = @(YES);
-            [self.commandDelegate sendPluginResult:result
-                                        callbackId:self.listeningStartCallback.callbackId];
+        voiceRequest.requestContexts = [self mapContextsFromOptions:options];
+        
+        if (options[@"resetContexts"]) {
+            voiceRequest.resetContexts = [options[@"resetContexts"] boolValue];
         }
-    }];
-    
-    [voiceRequest setSoundRecordEndBlock:^(AIRequest *request){
-        if (self.listeningFinishCallback) {
-            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-            result.keepCallback = @(YES);
-            [self.commandDelegate sendPluginResult:result
-                                        callbackId:self.listeningFinishCallback.callbackId];
+        
+        if (options[@"useVAD"]) {
+            voiceRequest.useVADForAutoCommit = [options[@"useVAD"] boolValue];
         }
-    }];
-    
-    [voiceRequest setSoundLevelHandleBlock:^(AIRequest *request, float level){
-        if (self.levelMeterCommand) {
-            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:(double)level];
-            result.keepCallback = @(YES);
-            [self.commandDelegate sendPluginResult:result
-                                        callbackId:self.levelMeterCommand.callbackId];
+        
+        if (options[@"entities"]) {
+            voiceRequest.entities = [self userEntitiesFromArray:options[@"entities"]];
         }
+        
+        [voiceRequest setCompletionBlockSuccess:^(AIRequest *request, id response) {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
+            self.lastVoiceRequest = nil;
+            
+            [self.commandDelegate sendPluginResult:result
+                                        callbackId:command.callbackId];
+        } failure:^(AIRequest *request, NSError *error) {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                        messageAsString:[error localizedDescription]];
+            self.lastVoiceRequest = nil;
+            
+            [self.commandDelegate sendPluginResult:result
+                                        callbackId:command.callbackId];
+            
+        }];
+        
+        [voiceRequest setSoundRecordBeginBlock:^(AIRequest *request){
+            if (self.listeningStartCallback) {
+                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+                result.keepCallback = @(YES);
+                [self.commandDelegate sendPluginResult:result
+                                            callbackId:self.listeningStartCallback.callbackId];
+            }
+        }];
+        
+        [voiceRequest setSoundRecordEndBlock:^(AIRequest *request){
+            if (self.listeningFinishCallback) {
+                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+                result.keepCallback = @(YES);
+                [self.commandDelegate sendPluginResult:result
+                                            callbackId:self.listeningFinishCallback.callbackId];
+            }
+        }];
+        
+        [voiceRequest setSoundLevelHandleBlock:^(AIRequest *request, float level){
+            if (self.levelMeterCommand) {
+                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:(double)level];
+                result.keepCallback = @(YES);
+                [self.commandDelegate sendPluginResult:result
+                                            callbackId:self.levelMeterCommand.callbackId];
+            }
+        }];
+        
+        self.lastVoiceRequest = voiceRequest;
+        
+        [_api enqueue:voiceRequest];
     }];
-    
-    self.lastVoiceRequest = voiceRequest;
-    
-    [_api enqueue:voiceRequest];
 }
 
 - (NSArray *)userEntitiesFromArray:(NSArray *)entities
@@ -258,12 +269,16 @@
 
 - (void)cancelAllRequests:(CDVInvokedUrlCommand*)command
 {
-    [_api cancellAllRequests];
+    [self.commandDelegate runInBackground:^{
+        [_api cancellAllRequests];
+    }];
 }
 
 - (void)stopListening:(CDVInvokedUrlCommand*)command
 {
-    [self.lastVoiceRequest commitVoice];
+    [self.commandDelegate runInBackground:^{
+        [self.lastVoiceRequest commitVoice];
+    }];
 }
 
 @end
