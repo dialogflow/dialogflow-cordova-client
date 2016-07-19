@@ -38,6 +38,7 @@
         <source-file src="src/ios/ApiAIPlugin.m" compiler-flags="-std=gnu99 -fmodules" />
 
         <framework src="libs/ios/ApiAI.framework" custom="true" weak="true" />
+        <resource-file src="libs/ios/beep.caf" />
 
         <framework src="Security.framework" />
         <framework src="Foundation.framework" />

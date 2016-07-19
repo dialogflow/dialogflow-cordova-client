@@ -38,16 +38,43 @@
 
 @implementation ApiAIPlugin
 
+- (void)deactivateAudioSession {
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    
+    [session setCategory:AVAudioSessionCategoryAmbient
+             withOptions:0
+                   error:nil];
+    
+    [session setActive:NO
+           withOptions:0
+                 error:nil];
+}
+
+- (void)activateAudioSession
+{
+    NSError *error = nil;
+    
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord
+             withOptions:(AVAudioSessionCategoryOptionAllowBluetooth | AVAudioSessionCategoryOptionDefaultToSpeaker)
+                   error:&error];
+    
+    if (error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+    }
+    
+    [session setActive:YES
+           withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation
+                 error:&error];
+    
+    if (error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+    }
+}
+
 - (void)init:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord
-                                         withOptions:AVAudioSessionCategoryOptionAllowBluetooth | AVAudioSessionCategoryOptionDefaultToSpeaker
-                                               error:nil];
-        [[AVAudioSession sharedInstance] setActive:YES
-                                       withOptions:AVAudioSessionCategoryOptionAllowBluetooth | AVAudioSessionCategoryOptionDefaultToSpeaker
-                                             error:nil];
-        
         ApiAI *api = [[ApiAI alloc] init];
         
         id <AIConfiguration> configuration = [[CustomConfiguration alloc] init];
@@ -153,11 +180,13 @@
 
 - (void)partialResultsCallback:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"WARNING: setPartialResultsCallback method not implemented for iOS. Ignoring...");
+    NSLog(@"WARNING: setPartialResultsCallback method was not implemented for iOS. Ignoring...");
 }
 
 - (void)requestVoice:(CDVInvokedUrlCommand*)command
 {
+    [self activateAudioSession];
+    
     [self.commandDelegate runInBackground:^{
         AIVoiceRequest *voiceRequest = [_api voiceRequest];
         
@@ -182,19 +211,22 @@
         }
         
         [voiceRequest setCompletionBlockSuccess:^(AIRequest *request, id response) {
+            [self deactivateAudioSession];
+            
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
             self.lastVoiceRequest = nil;
             
             [self.commandDelegate sendPluginResult:result
                                         callbackId:command.callbackId];
         } failure:^(AIRequest *request, NSError *error) {
+            [self deactivateAudioSession];
+            
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
                                                         messageAsString:[error localizedDescription]];
             self.lastVoiceRequest = nil;
             
             [self.commandDelegate sendPluginResult:result
                                         callbackId:command.callbackId];
-            
         }];
         
         [voiceRequest setSoundRecordBeginBlock:^(AIRequest *request){
