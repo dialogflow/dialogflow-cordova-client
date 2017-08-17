@@ -259,3 +259,10 @@ ApiAIPromises.requestText(
 
 More samples you can find in the [tests](https://github.com/api-ai/api-ai-cordova/blob/master/tests/tests.js) module.
 
+## License
+See [LICENSE](LICENSE).
+
+## Terms
+Your use of this sample is subject to, and by using or downloading the sample files you agree to comply with, the [Google APIs Terms of Service](https://developers.google.com/terms/).
+
+This is not an official Google product.
