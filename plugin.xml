@@ -72,7 +72,7 @@
         <framework src="commons-io:commons-io:2.4" />
 
         <source-file src="src/android/ApiAiPlugin.java" target-dir="src/ai/api" />
-        <source-file src="libs/ailib.jar" target-dir="libs" />
+        <lib-file src="libs/ailib.jar" target-dir="libs" />
     </platform>
 
 </plugin>
