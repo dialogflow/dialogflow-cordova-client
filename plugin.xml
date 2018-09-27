@@ -15,7 +15,7 @@
         <engine name="cordova" version=">=5.0.0" />
     </engines>
 
-    <js-module name="Q" src="www/lib/q.js">
+    <js-module name="Q" src="www/third_party/q.js">
         <runs/>
     </js-module>
 
